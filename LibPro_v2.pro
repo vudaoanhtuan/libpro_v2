@@ -18,14 +18,17 @@ SOURCES += main.cpp\
     account.cpp \
     book.cpp \
     datastore.cpp \
-    guireader.cpp
+    guireader.cpp \
+    guilibrarian.cpp
 
 HEADERS  += loginform.h \
     user.h \
     account.h \
     book.h \
     datastore.h \
-    guireader.h
+    guireader.h \
+    guilibrarian.h
 
 FORMS    += loginform.ui \
-    guireader.ui
+    guireader.ui \
+    guilibrarian.ui
