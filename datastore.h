@@ -68,6 +68,9 @@ public:
     User &getUserByIdRef(int uId);
     Book &getBookByIdRef(int bId);
 
+    // GET POS
+    int getPosBookById(int bId);
+
     bool exitAccountByName(QString aName);
     bool exitAccountById(int aId);
     bool exitUserById(int uId);

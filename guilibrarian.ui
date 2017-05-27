@@ -18,7 +18,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tabBook">
        <attribute name="title">
@@ -83,16 +83,23 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout">
             <item>
-             <widget class="QPushButton" name="butRequest">
+             <widget class="QPushButton" name="butAddBook">
               <property name="text">
-               <string>Request</string>
+               <string>Add Book</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="butAddBook">
+             <widget class="QPushButton" name="butEdit">
               <property name="text">
-               <string>Add Book</string>
+               <string>Edit</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="butRemove">
+              <property name="text">
+               <string>Remove</string>
               </property>
              </widget>
             </item>

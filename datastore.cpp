@@ -154,6 +154,14 @@ Book &DataStore::getBookByIdRef(int bId)
     return nullBook;
 }
 
+int DataStore::getPosBookById(int bId)
+{
+    for (int i=0;i<nBook;i++)
+        if (books[i].getBId() == bId)
+            return i;
+    return -1;
+}
+
 bool DataStore::exitAccountByName(QString aName)
 {
     for (int i=0;i<nAccount;i++)

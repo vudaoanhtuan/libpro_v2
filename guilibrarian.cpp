@@ -12,7 +12,9 @@ GuiLibrarian::GuiLibrarian(int accountId, QWidget *parent) :
     ui->setupUi(this);
 
     // Init tab
+    initBookTab();
     initInfoTab();
+    initRequestTab();
 
 }
 
@@ -34,6 +36,28 @@ void GuiLibrarian::initInfoTab()
     ui->lStatus->setText("Status: Active");
 }
 
+void GuiLibrarian::initBookTab()
+{
+    ui->listBookView->clear();
+    for (int i=0;i<data->nBook;i++)
+        addBookViewTo(ui->listBookView, data->books[i]);
+}
+
+void GuiLibrarian::initRequestTab()
+{
+    for (int i=0;i<data->nAccount;i++){
+        Account &curAcc = data->accounts[i];
+        int nReq = curAcc.getNRequest();
+        if (nReq > 0){
+            QVector<int> listBook = curAcc.getListRequest();
+            for (int j=0;j<nReq;j++){
+                Book &book = data->getBookByIdRef(listBook[i]);
+                addRequestViewTo(ui->listRequesting, curAcc, book);
+            }
+        }
+    }
+}
+
 void GuiLibrarian::addBookViewTo(QTreeWidget *view, Book &book)
 {
     QTreeWidgetItem *item = new QTreeWidgetItem(view);
@@ -48,7 +72,19 @@ void GuiLibrarian::addBookViewTo(QTreeWidget *view, Book &book)
 
 bool GuiLibrarian::searchBookByKey(Book &book, QString key)
 {
+    QStringList word = key.split(" ");
+    for (int i=0;i<word.size();i++){
+        if (book.getBTitle().contains(word[i]))
+            return 1;
+    }
+    return 0;
+}
 
+void GuiLibrarian::addRequestViewTo(QTreeWidget *view, Account &acc, Book &book)
+{
+    QTreeWidgetItem *item = new QTreeWidgetItem(view);
+    item->setText(0, acc.getAName());
+    item->setText(1, book.getBTitle());
 }
 
 
@@ -73,6 +109,18 @@ void GuiLibrarian::closeEvent(QCloseEvent *event)
 void GuiLibrarian::addNewBookFromForm(Book *book)
 {
     data->addNewBook(book);
+    initBookTab();
+}
+
+void GuiLibrarian::editInfoBook(Book *book, int id)
+{
+    Book &bookRef = data->getBookByIdRef(id);
+    bookRef.setBAuthor(book->getBAuthor());
+    bookRef.setBCategory(book->getBCategory());
+    bookRef.setBPublisher(book->getBPublisher());
+    bookRef.setBTitle(book->getBTitle());
+    bookRef.setBYear(book->getBYear());
+    initBookTab();
 }
 
 void GuiLibrarian::on_butAddBook_clicked()
@@ -80,4 +128,45 @@ void GuiLibrarian::on_butAddBook_clicked()
     GuiAddBook *addBookGui = new GuiAddBook;
     connect(addBookGui, SIGNAL(closeAndReturnBook(Book*)), this, SLOT(addNewBookFromForm(Book*)));
     addBookGui->show();
+}
+
+void GuiLibrarian::on_butSearch_clicked()
+{
+    ui->listBookView->clear();
+    QString key = ui->textSearch->text();
+    for (int i=0;i<data->nBook;i++){
+        if (searchBookByKey(data->books[i], key))
+            addBookViewTo(ui->listBookView, data->books[i]);
+    }
+}
+
+void GuiLibrarian::on_butRemove_clicked()
+{
+    if (ui->listBookView->currentItem() == 0)
+        return;
+    int bookId = ui->listBookView->currentItem()->text(0).toInt();
+    int pos = data->getPosBookById(bookId);
+    if (pos > -1){
+        data->books.remove(pos);
+        data->nBook--;
+        qDebug() << "Book deleted";
+    }
+    else
+        qDebug() << "Can't delete book";
+    initBookTab();
+}
+
+void GuiLibrarian::on_butEdit_clicked()
+{
+    if (ui->listBookView->currentItem() == 0)
+        return;
+    int bookId = ui->listBookView->currentItem()->text(0).toInt();
+
+    Book &book = data->getBookByIdRef(bookId);
+
+
+    GuiAddBook *editBookGui = new GuiAddBook;
+    editBookGui->setEditBookForm(&book);
+    connect(editBookGui, SIGNAL(closeAndReturnEditBook(Book*,int)), this, SLOT(editInfoBook(Book*, int)));
+    editBookGui->show();
 }

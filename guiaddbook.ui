@@ -128,6 +128,15 @@
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>inputTitle</tabstop>
+  <tabstop>inputAuthor</tabstop>
+  <tabstop>inputCategory</tabstop>
+  <tabstop>inputPublisher</tabstop>
+  <tabstop>inputYear</tabstop>
+  <tabstop>bAdd</tabstop>
+  <tabstop>bCancel</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

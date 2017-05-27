@@ -16,6 +16,8 @@ public:
     explicit GuiAddBook(QWidget *parent = 0);
     ~GuiAddBook();
 
+    void setEditBookForm(Book *book);
+
 private slots:
     void on_bAdd_clicked();
 
@@ -24,9 +26,12 @@ private slots:
 
 signals:
     void closeAndReturnBook(Book *book);
+    void closeAndReturnEditBook(Book *book, int id);
 
 private:
     Ui::GuiAddBook *ui;
+    int currentBookId;
+    bool forEdit;
 };
 
 #endif // GUIADDBOOK_H
