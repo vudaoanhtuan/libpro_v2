@@ -58,9 +58,9 @@ public:
 
 
     // Add new
-    void addNewUser(User nUser);
-    void addNewAccount(Account nAccount);
-    void addNewBook(Book nBook);
+    void addNewUser(User user);
+    void addNewAccount(Account acc);
+    void addNewBook(Book *book);
 
     // GETTER
     Account &getAccountByNameRef(QString aName);

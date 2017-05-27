@@ -5,6 +5,7 @@
 #include <QDebug>
 #include "datastore.h"
 #include "guireader.h"
+#include "guilibrarian.h"
 
 namespace Ui {
 class LoginForm;

@@ -40,6 +40,11 @@ void LoginForm::on_buttonLogin_clicked()
                 this->close();
                 readerGui->show();
             }
+            if (curAcc.getARole() == rLIBRARIAN){
+                GuiLibrarian *librarianGui = new GuiLibrarian(curAcc.getAId());
+                this->close();
+                librarianGui->show();
+            }
         }
         else{
             ui->labelStatus->setText("Wrong Password!");

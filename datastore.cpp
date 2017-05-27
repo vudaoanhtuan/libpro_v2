@@ -106,6 +106,17 @@ void DataStore::writeData()
     writeBook();
 }
 
+void DataStore::addNewBook(Book *book)
+{
+    currentIdBook++;
+    nBook++;
+    book->setBId(currentIdBook);
+    book->setBCount(10);
+    books.push_back(*book);
+    qDebug() << book->getBTitle();
+    qDebug() << "Book added";
+}
+
 Account &DataStore::getAccountByNameRef(QString aName)
 {
     for (int i=0;i<nAccount; i++){

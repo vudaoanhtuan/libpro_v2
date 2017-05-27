@@ -90,6 +90,13 @@
              </widget>
             </item>
             <item>
+             <widget class="QPushButton" name="butAddBook">
+              <property name="text">
+               <string>Add Book</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QPushButton" name="butLogout">
               <property name="text">
                <string>Log out</string>
