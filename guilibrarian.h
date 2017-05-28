@@ -37,6 +37,7 @@ public:
 
     // Function for Request Tab
     void addRequestViewTo(QTreeWidget *view, Account &acc, Book &book);
+    bool searchRequestByAccount(Account &acc, QString key);
 
     // Close event
     void closeEvent(QCloseEvent *event);
@@ -53,6 +54,12 @@ private slots:
     void on_butRemove_clicked();
 
     void on_butEdit_clicked();
+
+    void on_bAccept_clicked();
+
+    void on_bRemove2_clicked();
+
+    void on_bSearchRequest_clicked();
 
 private:
     Ui::GuiLibrarian *ui;

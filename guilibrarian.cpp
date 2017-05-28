@@ -51,7 +51,7 @@ void GuiLibrarian::initRequestTab()
         if (nReq > 0){
             QVector<int> listBook = curAcc.getListRequest();
             for (int j=0;j<nReq;j++){
-                Book &book = data->getBookByIdRef(listBook[i]);
+                Book &book = data->getBookByIdRef(listBook[j]);
                 addRequestViewTo(ui->listRequesting, curAcc, book);
             }
         }
@@ -83,8 +83,17 @@ bool GuiLibrarian::searchBookByKey(Book &book, QString key)
 void GuiLibrarian::addRequestViewTo(QTreeWidget *view, Account &acc, Book &book)
 {
     QTreeWidgetItem *item = new QTreeWidgetItem(view);
-    item->setText(0, acc.getAName());
-    item->setText(1, book.getBTitle());
+    item->setText(0, QString::number(acc.getAId()));
+    item->setText(1, acc.getAName());
+    item->setText(2, QString::number(book.getBId()));
+    item->setText(3, book.getBTitle());
+}
+
+bool GuiLibrarian::searchRequestByAccount(Account &acc, QString key)
+{
+    if (acc.getAName().contains(key) && acc.getNRequest() > 0)
+        return 1;
+    return 0;
 }
 
 
@@ -169,4 +178,52 @@ void GuiLibrarian::on_butEdit_clicked()
     editBookGui->setEditBookForm(&book);
     connect(editBookGui, SIGNAL(closeAndReturnEditBook(Book*,int)), this, SLOT(editInfoBook(Book*, int)));
     editBookGui->show();
+}
+
+void GuiLibrarian::on_bAccept_clicked()
+{
+    if (ui->listRequesting->currentItem() == 0)
+        return;
+    int accId = ui->listRequesting->currentItem()->text(0).toInt();
+    int bookId = ui->listRequesting->currentItem()->text(2).toInt();
+    Account &curAcc  = data->getAccountByIdRef(accId);
+    curAcc.removeRequest(bookId);
+    curAcc.borrowBook(bookId);
+    delete ui->listRequesting->currentItem();
+}
+
+void GuiLibrarian::on_bRemove2_clicked()
+{
+    if (ui->listRequesting->currentItem() == 0)
+        return;
+    int accId = ui->listRequesting->currentItem()->text(0).toInt();
+    int bookId = ui->listRequesting->currentItem()->text(2).toInt();
+    Account &curAcc  = data->getAccountByIdRef(accId);
+    curAcc.removeRequest(bookId);
+    delete ui->listRequesting->currentItem();
+}
+
+void GuiLibrarian::on_bSearchRequest_clicked()
+{
+    ui->listRequesting->clear();
+    QString text = ui->inputAccountRequest->text();
+    if (text.compare("all") == 0){
+        initRequestTab();
+        return;
+    }
+    QStringList listKey = text.split(" ");
+    QString textSearchAccount = listKey[0];
+    if (textSearchAccount.startsWith("a:")){
+        textSearchAccount = textSearchAccount.remove(0,2);
+        for (int iAcc=0; iAcc<data->nAccount; iAcc++){
+            Account &curAcc = data->accounts[iAcc];
+            if (searchRequestByAccount(curAcc, textSearchAccount)){
+                QVector<int> listBook = curAcc.getListRequest();
+                for (int iR=0; iR<listBook.size(); iR++)
+                    addRequestViewTo(ui->listRequesting, curAcc, data->getBookByIdRef(listBook[iR]));
+            }
+        }
+
+
+    }
 }

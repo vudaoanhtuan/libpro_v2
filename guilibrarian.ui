@@ -18,7 +18,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tabBook">
        <attribute name="title">
@@ -138,9 +138,9 @@
       </widget>
       <widget class="QWidget" name="tabRequesting">
        <attribute name="title">
-        <string>Requesting</string>
+        <string>Request</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_8">
+       <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>
          <widget class="QLabel" name="lRequesting">
           <property name="text">
@@ -149,9 +149,28 @@
          </widget>
         </item>
         <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <widget class="QLineEdit" name="inputAccountRequest"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="bSearchRequest">
+            <property name="text">
+             <string>Search</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
          <layout class="QHBoxLayout" name="horizontalLayout_7">
           <item>
            <widget class="QTreeWidget" name="listRequesting">
+            <column>
+             <property name="text">
+              <string>Account Id</string>
+             </property>
+            </column>
             <column>
              <property name="text">
               <string>Account</string>
@@ -159,7 +178,12 @@
             </column>
             <column>
              <property name="text">
-              <string>Book</string>
+              <string>Book Id</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Title</string>
              </property>
             </column>
            </widget>
@@ -196,6 +220,108 @@
             </item>
             <item>
              <spacer name="verticalSpacer_5">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tabBorrow">
+       <attribute name="title">
+        <string>Borrow</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_9">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <item>
+           <widget class="QLineEdit" name="lineEdit"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_4">
+            <property name="text">
+             <string>Search</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_9">
+          <item>
+           <widget class="QTreeWidget" name="listBorrowing">
+            <column>
+             <property name="text">
+              <string>Account</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Title</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>From</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>To</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Fine</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>AccId</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>BookId</string>
+             </property>
+            </column>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_8">
+            <item>
+             <widget class="QPushButton" name="pushButton">
+              <property name="text">
+               <string>Return</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_2">
+              <property name="text">
+               <string>Log out</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_3">
+              <property name="text">
+               <string>Quit</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_4">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
