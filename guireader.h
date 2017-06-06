@@ -61,6 +61,10 @@ private slots:
 
     void on_butLogout3_clicked();
 
+    void on_listBookView_itemDoubleClicked(QTreeWidgetItem *item, int column);
+
+    void on_listRequesting_itemDoubleClicked(QTreeWidgetItem *item, int column);
+
 private:
     Ui::GuiReader *ui;
 };

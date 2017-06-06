@@ -18,7 +18,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tabBook">
        <attribute name="title">
@@ -27,6 +27,13 @@
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Book Title: </string>
+            </property>
+           </widget>
+          </item>
           <item>
            <widget class="QLineEdit" name="textSearch"/>
           </item>
@@ -142,14 +149,14 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>
-         <widget class="QLabel" name="lRequesting">
-          <property name="text">
-           <string>Requesting</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <widget class="QLabel" name="lAccountRequest">
+            <property name="text">
+             <string>Account: </string>
+            </property>
+           </widget>
+          </item>
           <item>
            <widget class="QLineEdit" name="inputAccountRequest"/>
           </item>
@@ -244,6 +251,13 @@
        <layout class="QVBoxLayout" name="verticalLayout_9">
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Account: </string>
+            </property>
+           </widget>
+          </item>
           <item>
            <widget class="QLineEdit" name="inputBorrow"/>
           </item>

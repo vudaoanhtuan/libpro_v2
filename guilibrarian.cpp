@@ -10,7 +10,10 @@ GuiLibrarian::GuiLibrarian(int accountId, QWidget *parent) :
     data->ItsMe.myUser = data->getUserByIdRef(data->ItsMe.myAccount.getUserId());
 
     ui->setupUi(this);
-
+    setWindowTitle("Libpro - " + data->ItsMe.myAccount.getAName()+ " (Librarian)");
+    setMinimumSize(810,500);
+    this->move(QApplication::desktop()->screen()->rect().center()-this->rect().center());
+    ui->tabWidget->setCurrentIndex(0);
     // Init tab
     initBookTab();
     initInfoTab();
@@ -41,6 +44,11 @@ void GuiLibrarian::initBookTab()
 {
     ui->listBookView->hideColumn(6);
     ui->listBookView->clear();
+    ui->listBookView->setColumnWidth(0,70);
+    ui->listBookView->setColumnWidth(1,200);
+    ui->listBookView->setColumnWidth(2,130);
+    ui->listBookView->setColumnWidth(5,70);
+
     for (int i=0;i<data->nBook;i++)
         addBookViewTo(ui->listBookView, data->books[i]);
 }
@@ -66,6 +74,9 @@ void GuiLibrarian::initBorrowTab()
 {
     ui->listBorrowing->hideColumn(5);
     ui->listBorrowing->hideColumn(6);
+
+    ui->listBorrowing->setColumnWidth(1,200);
+
     ui->listBorrowing->clear();
     for (int i=0;i<data->nAccount;i++){
         if (data->accounts[i].getNBorrow() > 0){
@@ -166,8 +177,6 @@ void GuiLibrarian::closeEvent(QCloseEvent *event)
     if (resBtn != QMessageBox::Yes) {
         event->ignore();
     } else {
-        Account &a = data->getAccountByIdRef(data->ItsMe.myAccount.getAId());
-        a = data->ItsMe.myAccount;
         event->accept();
         delete data;
         delete this;
@@ -193,7 +202,9 @@ void GuiLibrarian::editInfoBook(Book *book, int id)
 
 void GuiLibrarian::on_butAddBook_clicked()
 {
-    GuiAddBook *addBookGui = new GuiAddBook;
+    GuiAddBook *addBookGui = new GuiAddBook();
+    addBookGui->setWindowTitle("Add New Book");
+    addBookGui->move(QApplication::desktop()->screen()->rect().center()-this->rect().center());
     connect(addBookGui, SIGNAL(closeAndReturnBook(Book*)), this, SLOT(addNewBookFromForm(Book*)));
     addBookGui->show();
 }
@@ -250,6 +261,7 @@ void GuiLibrarian::on_butEdit_clicked()
 
 
     GuiAddBook *editBookGui = new GuiAddBook;
+    editBookGui->move(QApplication::desktop()->screen()->rect().center()-this->rect().center());
     editBookGui->setEditBookForm(&book);
     connect(editBookGui, SIGNAL(closeAndReturnEditBook(Book*,int)), this, SLOT(editInfoBook(Book*, int)));
     editBookGui->show();
@@ -396,7 +408,7 @@ void GuiLibrarian::on_butChangePassword_clicked()
     QString curPass = QInputDialog::getText(0,"Change Password","Current Password",QLineEdit::Normal,"",0);
     if (curPass == "")
         return;
-    Account &a = data->ItsMe.myAccount;
+    Account &a = data->getAccountByIdRef(data->ItsMe.myAccount.getAId());
     if (a.getAPass() == curPass){
         QString newPass = QInputDialog::getText(0,"Change Password","New Password",QLineEdit::Normal,"",0);
         if (newPass=="")
@@ -416,4 +428,18 @@ void GuiLibrarian::on_butChangePassword_clicked()
     else{
         QMessageBox::information(this, tr("Error!"), tr("Wrong password!"));
     }
+}
+
+void GuiLibrarian::on_listBookView_itemDoubleClicked(QTreeWidgetItem *item, int column)
+{
+    int bookId = item->text(0).toInt();
+
+    Book &book = data->getBookByIdRef(bookId);
+
+
+    GuiAddBook *editBookGui = new GuiAddBook;
+    editBookGui->move(QApplication::desktop()->screen()->rect().center()-this->rect().center());
+    editBookGui->setEditBookForm(&book);
+    connect(editBookGui, SIGNAL(closeAndReturnEditBook(Book*,int)), this, SLOT(editInfoBook(Book*, int)));
+    editBookGui->show();
 }

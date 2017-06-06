@@ -11,6 +11,8 @@
 #include <QCloseEvent>
 #include <QMessageBox>
 #include <QInputDialog>
+#include <QHeaderView>
+#include <QDesktopWidget>
 
 namespace Ui {
 class GuiLibrarian;
@@ -88,6 +90,8 @@ private slots:
     void on_bLogout4_clicked();
 
     void on_butChangePassword_clicked();
+
+    void on_listBookView_itemDoubleClicked(QTreeWidgetItem *item, int column);
 
 private:
     Ui::GuiLibrarian *ui;

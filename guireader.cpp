@@ -10,7 +10,9 @@ GuiReader::GuiReader(int accountId, QWidget *parent) :
     data->ItsMe.myAccount = data->getAccountByIdRef(accountId);
     data->ItsMe.myUser = data->getUserByIdRef(data->ItsMe.myAccount.getUserId());
     ui->setupUi(this);
-
+    setWindowTitle("Libpro - " + data->ItsMe.myAccount.getAName()+ " (Reader)");
+    setMinimumSize(810,500);
+    this->move(QApplication::desktop()->screen()->rect().center()-this->rect().center());
     initInfoTab();
     initBookTab();
     initStatusTab();
@@ -38,6 +40,12 @@ void GuiReader::initInfoTab()
 
 void GuiReader::initBookTab()
 {
+    ui->listBookView->hideColumn(6);
+    ui->listBookView->clear();
+    ui->listBookView->setColumnWidth(0,70);
+    ui->listBookView->setColumnWidth(1,200);
+    ui->listBookView->setColumnWidth(2,130);
+    ui->listBookView->setColumnWidth(5,70);
     for (int i=0;i<data->nBook;i++)
         addBookViewTo(ui->listBookView, data->books[i]);
 //    ui->listBookView->hideColumn(0);
@@ -45,7 +53,11 @@ void GuiReader::initBookTab()
 
 void GuiReader::initStatusTab()
 {
-    ui->listRequesting->hideColumn(7);
+    ui->listRequesting->hideColumn(6);
+    ui->listBorrowing->setColumnWidth(1,200);
+    ui->listRequesting->setColumnWidth(1,200);
+
+
 
     Account &a = data->ItsMe.myAccount;
     ui->lBorrowing->setText("Borrowing: " + QString::number(a.getNBorrow()));
@@ -96,17 +108,22 @@ void GuiReader::showListBookBorrowing()
         item->setText(2, dateFrom.toString(DATE_FORMAT));
         item->setText(3, dateTo.toString(DATE_FORMAT));
 
-        int nDate = dateTo.daysTo(QDate::currentDate());
-        if (nDate > 0){
-            fine += nDate;
-        }
-        if (-nDate < 2){
+        item->setText(4,"0");
+        int nDate = QDate::currentDate().daysTo(dateTo);
+        if (nDate < 0){
+            fine += -nDate;
+            int curFine = -nDate*data->nFine;
+            item->setText(4,QString::number(curFine));
             for (int j=0;j<ui->listBorrowing->columnCount();j++)
-                item->setBackgroundColor(j, Qt::red);
+                item->setBackgroundColor(j, QColor::fromRgb(244, 102, 102));
         }
-        else if (-nDate < 4){
+        else if (nDate < 2){
             for (int j=0;j<ui->listBorrowing->columnCount();j++)
-                item->setBackgroundColor(j, QColor::fromRgb(244, 244, 66));
+                item->setBackgroundColor(j, QColor::fromRgb(255, 177, 89));
+        }
+        else if (nDate < 4){
+            for (int j=0;j<ui->listBorrowing->columnCount();j++)
+                item->setBackgroundColor(j, QColor::fromRgb(252, 228, 123));
         }
     }
 
@@ -203,7 +220,7 @@ void GuiReader::on_butChangePassword_clicked()
     QString curPass = QInputDialog::getText(0,"Change Password","Current Password",QLineEdit::Normal,"",0);
     if (curPass == "")
         return;
-    Account &a = data->ItsMe.myAccount;
+    Account &a = data->getAccountByIdRef(data->ItsMe.myAccount.getAId());
     if (a.getAPass() == curPass){
         QString newPass = QInputDialog::getText(0,"Change Password","New Password",QLineEdit::Normal,"",0);
         if (newPass=="")
@@ -262,5 +279,42 @@ void GuiReader::on_butLogout3_clicked()
     if (this->close()){
          LoginForm *loginForm = new LoginForm();
          loginForm->show();
+    }
+}
+
+void GuiReader::on_listBookView_itemDoubleClicked(QTreeWidgetItem *item, int column)
+{
+    int bookId = item->text(0).toInt();
+    Account &a = data->ItsMe.myAccount;
+    if (!a.requestBook(bookId)){
+        QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Confirm!",
+                                                                    tr("Request this book?\n"),
+                                                                    QMessageBox::Yes | QMessageBox::No,
+                                                                    QMessageBox::Yes);
+
+        if (resBtn == QMessageBox::Yes){
+            addBookViewTo(ui->listRequesting, data->getBookByIdRef(bookId));
+            ui->lRequesting->setText("Requesting: " + QString::number(a.getNRequest()));
+        }
+    }
+    else{
+        QMessageBox::information(this, "Error!", "You have got maximun book request and borrow.\nRemove some request!");
+    }
+}
+
+void GuiReader::on_listRequesting_itemDoubleClicked(QTreeWidgetItem *item, int column)
+{
+    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Confirm!",
+                                                                tr("Remove this request?\n"),
+                                                                QMessageBox::Yes | QMessageBox::No,
+                                                                QMessageBox::Yes);
+
+    if (resBtn == QMessageBox::Yes){
+        int bookId = item->text(0).toInt();
+        Account &a = data->ItsMe.myAccount;
+        if (!a.removeRequest(bookId)){
+            ui->lRequesting->setText("Requesting: " + QString::number(a.getNRequest()));
+            delete ui->listRequesting->currentItem();
+        }
     }
 }
