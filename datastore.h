@@ -38,6 +38,7 @@ public:
     int currentIdAccount;
     int currentIdBook;
 
+    int nFine;
     // Function
 
     // Read Data

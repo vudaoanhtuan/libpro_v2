@@ -97,21 +97,21 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="butRemove">
+             <widget class="QPushButton" name="butRemoveBook">
               <property name="text">
                <string>Remove</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="butLogout">
+             <widget class="QPushButton" name="bLogout1">
               <property name="text">
                <string>Log out</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="butQuit">
+             <widget class="QPushButton" name="bQuit1">
               <property name="text">
                <string>Quit</string>
               </property>
@@ -198,7 +198,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="bRemove2">
+             <widget class="QPushButton" name="bRemoveRequest">
               <property name="text">
                <string>Deny</string>
               </property>
@@ -245,10 +245,10 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_8">
           <item>
-           <widget class="QLineEdit" name="lineEdit"/>
+           <widget class="QLineEdit" name="inputBorrow"/>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_4">
+           <widget class="QPushButton" name="bSearchBorrow">
             <property name="text">
              <string>Search</string>
             </property>
@@ -300,21 +300,21 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_8">
             <item>
-             <widget class="QPushButton" name="pushButton">
+             <widget class="QPushButton" name="bRemoveBorrow">
               <property name="text">
-               <string>Return</string>
+               <string>Remove</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_2">
+             <widget class="QPushButton" name="bLogout3">
               <property name="text">
                <string>Log out</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_3">
+             <widget class="QPushButton" name="bQuit3">
               <property name="text">
                <string>Quit</string>
               </property>
@@ -440,14 +440,14 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_4">
             <item>
-             <widget class="QPushButton" name="butLogout3">
+             <widget class="QPushButton" name="bLogout4">
               <property name="text">
                <string>Log out</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="butQuit3">
+             <widget class="QPushButton" name="bQuit4">
               <property name="text">
                <string>Quit</string>
               </property>

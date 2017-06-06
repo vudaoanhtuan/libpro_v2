@@ -57,7 +57,7 @@ void GuiReader::initStatusTab()
     for (int i=0;i<a.getNRequest();i++){
         Book book = data->getBookByIdRef(listRequest[i]);
         addBookViewTo(ui->listRequesting, book);
-    }
+    }    
 }
 
 void GuiReader::addBookViewTo(QTreeWidget *view, Book &book)
@@ -75,7 +75,7 @@ void GuiReader::addBookViewTo(QTreeWidget *view, Book &book)
 bool GuiReader::searchBookByKey(Book &book, QString key){
     QStringList word = key.split(" ");
     for (int i=0;i<word.size();i++){
-        if (book.getBTitle().contains(word[i]))
+        if (book.getBTitle().contains(word[i], Qt::CaseInsensitive))
             return 1;
     }
     return 0;
@@ -84,6 +84,7 @@ bool GuiReader::searchBookByKey(Book &book, QString key){
 void GuiReader::showListBookBorrowing()
 {
     Account &a = data->ItsMe.myAccount;
+    int fine =0;
     QVector<BookBorrow> lists = a.getListBorrows();
     for (int i=0;i<lists.size();i++){
         Book book = data->getBookByIdRef(lists[i].bookId);
@@ -94,7 +95,27 @@ void GuiReader::showListBookBorrowing()
         QDate dateTo = dateFrom.addDays(MAX_DAY);
         item->setText(2, dateFrom.toString(DATE_FORMAT));
         item->setText(3, dateTo.toString(DATE_FORMAT));
+
+        int nDate = dateTo.daysTo(QDate::currentDate());
+        if (nDate > 0){
+            fine += nDate;
+        }
+        if (-nDate < 2){
+            for (int j=0;j<ui->listBorrowing->columnCount();j++)
+                item->setBackgroundColor(j, Qt::red);
+        }
+        else if (-nDate < 4){
+            for (int j=0;j<ui->listBorrowing->columnCount();j++)
+                item->setBackgroundColor(j, QColor::fromRgb(244, 244, 66));
+        }
     }
+
+    fine = fine * data->nFine;
+    ui->lFine->setText("Total Fine: " + QString::number(fine) + " VND");
+
+
+
+
 }
 
 void GuiReader::closeEvent (QCloseEvent *event)
@@ -134,23 +155,46 @@ void GuiReader::on_butRequest_clicked()
 {
     if (ui->listBookView->currentItem() == 0)
         return;
+
+
+
     int bookId = ui->listBookView->currentItem()->text(0).toInt();
     Account &a = data->ItsMe.myAccount;
     if (!a.requestBook(bookId)){
-        addBookViewTo(ui->listRequesting, data->getBookByIdRef(bookId));
-        ui->lRequesting->setText("Requesting: " + QString::number(a.getNRequest()));
+        QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Confirm!",
+                                                                    tr("Request this book?\n"),
+                                                                    QMessageBox::Yes | QMessageBox::No,
+                                                                    QMessageBox::Yes);
+
+        if (resBtn == QMessageBox::Yes){
+            addBookViewTo(ui->listRequesting, data->getBookByIdRef(bookId));
+            ui->lRequesting->setText("Requesting: " + QString::number(a.getNRequest()));
+        }
     }
+    else{
+        QMessageBox::information(this, "Error!", "You have got maximun book request and borrow.\nRemove some request!");
+    }
+
+
 }
 
 void GuiReader::on_bRemove_clicked()
 {
     if (ui->listRequesting->currentItem() == 0)
         return;
-    int bookId = ui->listRequesting->currentItem()->text(0).toInt();
-    Account &a = data->ItsMe.myAccount;
-    if (!a.removeRequest(bookId)){
-        ui->lRequesting->setText("Requesting: " + QString::number(a.getNRequest()));
-        delete ui->listRequesting->currentItem();
+
+    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Confirm!",
+                                                                tr("Remove this request?\n"),
+                                                                QMessageBox::Yes | QMessageBox::No,
+                                                                QMessageBox::Yes);
+
+    if (resBtn == QMessageBox::Yes){
+        int bookId = ui->listRequesting->currentItem()->text(0).toInt();
+        Account &a = data->ItsMe.myAccount;
+        if (!a.removeRequest(bookId)){
+            ui->lRequesting->setText("Requesting: " + QString::number(a.getNRequest()));
+            delete ui->listRequesting->currentItem();
+        }
     }
 }
 

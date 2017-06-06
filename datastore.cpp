@@ -92,6 +92,7 @@ int DataStore::writeInitData()
     output << currentIdUser << " ";
     output << currentIdAccount << " ";
     output << currentIdBook << " ";
+    output << nFine;
 
     file.flush();
     file.close();
@@ -343,7 +344,7 @@ int DataStore::readInitData()
     QTextStream input(&file);
 
     input >> nUser >> nAccount >> nBook >> currentIdUser >> currentIdAccount >> currentIdBook;
-
+    input >> nFine;
     file.close();
     return 0;
 }
