@@ -26,6 +26,12 @@ private slots:
 
     void on_buttonLogin_clicked();
 
+    void on_bReader_clicked();
+
+    void on_bLibrarian_clicked();
+
+    void on_bManager_clicked();
+
 private:
     Ui::LoginForm *ui;
 };

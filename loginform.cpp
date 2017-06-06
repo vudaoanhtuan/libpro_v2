@@ -11,8 +11,9 @@ LoginForm::LoginForm(QWidget *parent) :
 //    qDebug()<<data.users[0].getUName();
 //    qDebug()<<data.books[0].getBTitle();
 //    qDebug()<<data.accounts[0].getAName();
-
-
+    ui->bReader->hide();
+    ui->bLibrarian->hide();
+    ui->bManager->hide();
 }
 
 LoginForm::~LoginForm()
@@ -33,18 +34,26 @@ void LoginForm::on_buttonLogin_clicked()
 
     if (data->exitAccountByName(account)){
         Account curAcc = data->getAccountByNameRef(account);
+        data->ItsMe.myAccount = curAcc;
         if (curAcc.getAPass() == password){
-            ui->labelStatus->setText("Loged in!");
-            if (curAcc.getARole() == rREADER){
-                GuiReader *readerGui  = new GuiReader(curAcc.getAId());
-                this->close();
-                readerGui->show();
+            if (curAcc.getAStatus() == 0){
+                ui->labelStatus->setText("Your account is disabled!");
+                return;
             }
-            if (curAcc.getARole() == rLIBRARIAN){
-                GuiLibrarian *librarianGui = new GuiLibrarian(curAcc.getAId());
-                this->close();
-                librarianGui->show();
-            }
+            ui->labelStatus->setText("Log in as:");
+
+            Role role = curAcc.getARole();
+            bool isReader = role & 1;
+            bool isLibrarian = (role >> 1) & 1;
+            bool isManager = (role >> 2) & 1;
+            if (isReader)
+                ui->bReader->show();
+
+            if (isLibrarian)
+                ui->bLibrarian->show();
+
+            if (isManager)
+                ui->bManager->show();
         }
         else{
             ui->labelStatus->setText("Wrong Password!");
@@ -55,5 +64,26 @@ void LoginForm::on_buttonLogin_clicked()
     }
 
 
+
+}
+
+void LoginForm::on_bReader_clicked()
+{
+    Account &curAcc = data->ItsMe.myAccount;
+    GuiReader *readerGui  = new GuiReader(curAcc.getAId());
+    this->close();
+    readerGui->show();
+}
+
+void LoginForm::on_bLibrarian_clicked()
+{
+    Account &curAcc = data->ItsMe.myAccount;
+    GuiLibrarian *librarianGui = new GuiLibrarian(curAcc.getAId());
+    this->close();
+    librarianGui->show();
+}
+
+void LoginForm::on_bManager_clicked()
+{
 
 }

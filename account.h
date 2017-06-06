@@ -14,7 +14,7 @@ struct BookBorrow{
     QDate dayBorrow;
 };
 
-enum Role{rREADER, rLIBRARIAN, rMANAGER};
+enum Role{rREADER=1, rLIBRARIAN=2, rMANAGER=4, rRL=3, rRM=5, rLM=6, rRLM=7};
 
 class Account
 {
