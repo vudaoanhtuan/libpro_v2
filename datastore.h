@@ -60,7 +60,7 @@ public:
 
     // Add new
     void addNewUser(User user);
-    void addNewAccount(Account acc);
+    void addNewAccount(Account *acc);
     void addNewBook(Book *book);
 
     // GETTER
@@ -79,12 +79,14 @@ public:
     bool exitBookById(int bId);
 
     // Function for Role
-    bool isReader(Role role);
-    bool isLibrarian(Role role);
-    bool isManager(Role role);
+    static bool isReader(Role role);
+    static bool isLibrarian(Role role);
+    static bool isManager(Role role);
+    static Role getRole(bool iR, bool iL, bool iM);
 
     // Remove
     bool removeAccount(int aId);
+
 
 
 

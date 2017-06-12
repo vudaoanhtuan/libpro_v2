@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "datastore.h"
 #include "loginform.h"
+#include "guiaccountinfo.h"
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 #include <QStringList>
@@ -40,6 +41,14 @@ private slots:
     void on_bSearchAcc_clicked();
 
     void on_bRemoveAcc_clicked();
+
+    void on_bAddAcc_clicked();
+
+    void addNewAccount(Account *acc);
+
+    void editAccount(Account *acc, int aId);
+
+    void on_bEditAcc_clicked();
 
 private:
     Ui::GuiManager *ui;

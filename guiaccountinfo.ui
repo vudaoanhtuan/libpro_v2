@@ -50,10 +50,10 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>
-         <widget class="QLineEdit" name="lineEdit"/>
+         <widget class="QLineEdit" name="iAccName"/>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit_2"/>
+         <widget class="QLineEdit" name="iUserId"/>
         </item>
        </layout>
       </item>
@@ -147,7 +147,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit_3"/>
+       <widget class="QLineEdit" name="iPass"/>
       </item>
       <item>
        <widget class="QPushButton" name="bReset">

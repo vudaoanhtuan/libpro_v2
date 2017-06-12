@@ -58,6 +58,9 @@ public:
     int borrowBook(int bookId);
     int removeBorrow(int bookId);
 
+    // Role Function
+
+
 };
 
 #endif // ACCOUNT_H

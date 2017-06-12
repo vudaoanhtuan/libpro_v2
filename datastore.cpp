@@ -107,6 +107,15 @@ void DataStore::writeData()
     writeBook();
 }
 
+void DataStore::addNewAccount(Account *acc)
+{
+    currentIdAccount++;
+    nAccount++;
+    acc->setAId(currentIdAccount);
+    accounts.push_back(*acc);
+    // delete acc;
+}
+
 void DataStore::addNewBook(Book *book)
 {
     currentIdBook++;
@@ -217,6 +226,11 @@ bool DataStore::isLibrarian(Role role)
 bool DataStore::isManager(Role role)
 {
     return (role >> 2) & 1;
+}
+
+Role DataStore::getRole(bool iR, bool iL, bool iM)
+{
+    return (Role) (4*iM+2*iL+iR);
 }
 
 bool DataStore::removeAccount(int aId)

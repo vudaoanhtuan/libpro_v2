@@ -147,3 +147,44 @@ void GuiManager::on_bRemoveAcc_clicked()
         }
     }
 }
+
+void GuiManager::on_bAddAcc_clicked()
+{
+    guiAccountInfo *guiAccInfo =  new guiAccountInfo(1);
+    guiAccInfo->setWindowTitle("Add New Account");
+    guiAccInfo->move(QApplication::desktop()->screen()->rect().center()-this->rect().center());
+    connect(guiAccInfo, SIGNAL(addAccount(Account*)), this, SLOT(addNewAccount(Account*)));
+    guiAccInfo->show();
+}
+
+void GuiManager::addNewAccount(Account *acc)
+{
+    data->addNewAccount(acc);
+}
+
+void GuiManager::editAccount(Account *acc, int aId)
+{
+    qDebug()<<aId;
+    qDebug()<<(int)acc->getARole();
+    Account &curAcc = data->getAccountByIdRef(aId);
+    curAcc.setARole(acc->getARole());
+    curAcc.setAStatus(acc->getAStatus());
+    curAcc.setUserId(acc->getUserId());
+    curAcc.setAPass(acc->getAPass());
+}
+
+void GuiManager::on_bEditAcc_clicked()
+{
+    if (ui->listAccount->currentItem() == 0)
+        return;
+
+    int aId = ui->listAccount->currentItem()->text(1).toInt();
+    Account &curAcc = data->getAccountByIdRef(aId);
+
+    guiAccountInfo *editAccGui = new guiAccountInfo(2, &curAcc);
+
+    editAccGui->setWindowTitle("Edit Account");
+    editAccGui->move(QApplication::desktop()->screen()->rect().center()-this->rect().center());
+    connect(editAccGui, SIGNAL(editAccount(Account*,int)), this, SLOT(editAccount(Account*,int)));
+    editAccGui->show();
+}
