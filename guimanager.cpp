@@ -19,6 +19,7 @@ GuiManager::GuiManager(int accountId, QWidget *parent) :
     // Init tab;
     initInfoTab();
     initAccountTab();
+    initUserTab();
 //    initStatusTab();
     // Set defaul tab;
     ui->tabWidget->setCurrentIndex(0);
@@ -51,6 +52,15 @@ void GuiManager::initAccountTab()
     }
 }
 
+void GuiManager::initUserTab()
+{
+    ui->listUser->hideColumn(0);
+    for (int iu=0;iu<data->nUser;iu++){
+        User &user = data->users[iu];
+        addUserViewTo(ui->listUser, user);
+    }
+}
+
 void GuiManager::addAccountViewTo(QTreeWidget *view, Account &acc)
 {
     QTreeWidgetItem *item = new QTreeWidgetItem(view);
@@ -67,6 +77,15 @@ void GuiManager::addAccountViewTo(QTreeWidget *view, Account &acc)
     if (data->isManager(role))
         strRole = strRole + "M ";
     item->setText(4, strRole);
+}
+
+void GuiManager::addUserViewTo(QTreeWidget *view, User &user)
+{
+    QTreeWidgetItem *item = new QTreeWidgetItem(view);
+    item->setText(1, QString::number(user.getUId()));
+    item->setText(2, user.getUName());
+    item->setText(3, QString::number(user.getUCode()));
+    item->setText(4, user.getUEmail());
 }
 
 void GuiManager::closeEvent(QCloseEvent *event)
@@ -187,4 +206,9 @@ void GuiManager::on_bEditAcc_clicked()
     editAccGui->move(QApplication::desktop()->screen()->rect().center()-this->rect().center());
     connect(editAccGui, SIGNAL(editAccount(Account*,int)), this, SLOT(editAccount(Account*,int)));
     editAccGui->show();
+}
+
+void GuiManager::on_bSearchUser_clicked()
+{
+
 }

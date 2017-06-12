@@ -29,9 +29,13 @@ public:
     // Init tab
     void initInfoTab();
     void initAccountTab();
+    void initUserTab();
 
     // Function for AccountTab
     void addAccountViewTo(QTreeWidget *view, Account &acc);
+
+    // Function for UserTab
+    void addUserViewTo(QTreeWidget *view, User &user);
 
     // Close event
     void closeEvent(QCloseEvent *event);

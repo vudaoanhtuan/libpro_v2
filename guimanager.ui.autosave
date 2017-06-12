@@ -192,28 +192,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="searchUserBy">
-            <item>
-             <property name="text">
-              <string>User Id</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>User Name</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>User Code</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>User Email</string>
-             </property>
-            </item>
-           </widget>
+           <widget class="QComboBox" name="searchUserBy"/>
           </item>
           <item>
            <spacer name="horizontalSpacer_4">
@@ -261,16 +240,6 @@
             <column>
              <property name="text">
               <string>User</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Code</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Email</string>
              </property>
             </column>
            </widget>
