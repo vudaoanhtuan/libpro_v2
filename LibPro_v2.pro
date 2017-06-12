@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     datastore.cpp \
     guireader.cpp \
     guilibrarian.cpp \
-    guiaddbook.cpp
+    guiaddbook.cpp \
+    guimanager.cpp
 
 HEADERS  += loginform.h \
     user.h \
@@ -29,9 +30,11 @@ HEADERS  += loginform.h \
     datastore.h \
     guireader.h \
     guilibrarian.h \
-    guiaddbook.h
+    guiaddbook.h \
+    guimanager.h
 
 FORMS    += loginform.ui \
     guireader.ui \
     guilibrarian.ui \
-    guiaddbook.ui
+    guiaddbook.ui \
+    guimanager.ui
