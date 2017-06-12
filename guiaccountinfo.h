@@ -6,8 +6,6 @@
 #include "datastore.h"
 #include <QMessageBox>
 
-enum Work{ADD = 1, EDIT = 2};
-
 namespace Ui {
 class guiAccountInfo;
 }
@@ -17,10 +15,13 @@ class guiAccountInfo : public QMainWindow
     Q_OBJECT
 
 public:
+    DataStore *data;
     Work work;
     int aId;
     explicit guiAccountInfo(int work, Account *acc =0, QWidget *parent = 0);
     ~guiAccountInfo();
+
+    QString checkInput();
 
 signals:
     void addAccount(Account *acc);

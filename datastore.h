@@ -23,6 +23,8 @@ struct WhoLoging{
     Account myAccount;
 };
 
+enum Work{ADD = 1, EDIT = 2, INFO = 3};
+
 class DataStore
 {
 public:
@@ -59,7 +61,7 @@ public:
 
 
     // Add new
-    void addNewUser(User user);
+    void addNewUser(User *user);
     void addNewAccount(Account *acc);
     void addNewBook(Book *book);
 
@@ -72,6 +74,7 @@ public:
     // GET POS
     int getPosBookById(int bId);
     int getPosAccountById(int aId);
+    int getPosUserById(int uId);
 
     bool exitAccountByName(QString aName);
     bool exitAccountById(int aId);
@@ -86,6 +89,7 @@ public:
 
     // Remove
     bool removeAccount(int aId);
+    bool removeUser(int uId);
 
 
 

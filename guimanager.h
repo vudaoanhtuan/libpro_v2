@@ -5,6 +5,7 @@
 #include "datastore.h"
 #include "loginform.h"
 #include "guiaccountinfo.h"
+#include "guiuserinfo.h"
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 #include <QStringList>
@@ -53,6 +54,36 @@ private slots:
     void editAccount(Account *acc, int aId);
 
     void on_bEditAcc_clicked();
+
+    void on_bSearchUser_clicked();
+
+    void on_bRemoveUser_clicked();
+
+    void on_bAddUser_clicked();
+
+    void addNewUser(User *user);
+
+    void editUser(User *user, int uId);
+
+    void on_bEditUser_clicked();
+
+    void on_butChangePassword_clicked();
+
+    void on_bLogout1_clicked();
+
+    void on_bLogout2_clicked();
+
+    void on_butLogout3_clicked();
+
+    void on_bQuit1_clicked();
+
+    void on_bQuit2_clicked();
+
+    void on_butQuit3_clicked();
+
+    void on_listUser_itemDoubleClicked(QTreeWidgetItem *item, int column);
+
+    void on_listAccount_itemDoubleClicked(QTreeWidgetItem *item, int column);
 
 private:
     Ui::GuiManager *ui;

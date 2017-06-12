@@ -14,6 +14,11 @@ LoginForm::LoginForm(QWidget *parent) :
     ui->bReader->hide();
     ui->bLibrarian->hide();
     ui->bManager->hide();
+
+    // Set location and default for tab
+    setWindowTitle("Libpro - Log in");
+    setMinimumSize(400,200);
+    this->move(QApplication::desktop()->screen()->rect().center()-this->rect().center());
 }
 
 LoginForm::~LoginForm()
@@ -38,6 +43,9 @@ void LoginForm::on_buttonLogin_clicked()
         if (curAcc.getAPass() == password){
             if (curAcc.getAStatus() == 0){
                 ui->labelStatus->setText("Your account is disabled!");
+                ui->bReader->hide();
+                ui->bLibrarian->hide();
+                ui->bManager->hide();
                 return;
             }
             ui->labelStatus->setText("Log in as:");
@@ -57,10 +65,16 @@ void LoginForm::on_buttonLogin_clicked()
         }
         else{
             ui->labelStatus->setText("Wrong Password!");
+            ui->bReader->hide();
+            ui->bLibrarian->hide();
+            ui->bManager->hide();
         }
     }
     else{
         ui->labelStatus->setText("Wrong Account!");
+        ui->bReader->hide();
+        ui->bLibrarian->hide();
+        ui->bManager->hide();
     }
 
 

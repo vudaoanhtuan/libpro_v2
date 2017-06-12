@@ -107,6 +107,15 @@ void DataStore::writeData()
     writeBook();
 }
 
+void DataStore::addNewUser(User *user)
+{
+    currentIdUser++;
+    nUser++;
+    user->setUId(currentIdUser);
+    users.push_back(*user);
+    // delete user;
+}
+
 void DataStore::addNewAccount(Account *acc)
 {
     currentIdAccount++;
@@ -125,6 +134,7 @@ void DataStore::addNewBook(Book *book)
     books.push_back(*book);
     qDebug() << book->getBTitle();
     qDebug() << "Book added";
+    // delete book;
 }
 
 Account &DataStore::getAccountByNameRef(QString aName)
@@ -176,6 +186,15 @@ int DataStore::getPosAccountById(int aId)
 {
     for (int i=0;i<nAccount;i++){
         if (accounts[i].getAId() == aId)
+            return i;
+    }
+    return -1;
+}
+
+int DataStore::getPosUserById(int uId)
+{
+    for (int i=0;i<nUser;i++){
+        if (users[i].getUId() == uId)
             return i;
     }
     return -1;
@@ -239,6 +258,17 @@ bool DataStore::removeAccount(int aId)
     if (pos > -1){
         accounts.remove(pos);
         nAccount--;
+        return 0;
+    }
+    return 1;
+}
+
+bool DataStore::removeUser(int uId)
+{
+    int pos = getPosUserById(uId);
+    if (pos > -1){
+        users.remove(pos);
+        nUser--;
         return 0;
     }
     return 1;

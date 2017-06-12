@@ -12,7 +12,7 @@ GuiManager::GuiManager(int accountId, QWidget *parent) :
     ui->setupUi(this);
 
     // Set location and default for tab
-    setWindowTitle("Libpro - " + data->ItsMe.myAccount.getAName()+ " (Reader)");
+    setWindowTitle("Libpro - " + data->ItsMe.myAccount.getAName()+ " (Manager)");
     setMinimumSize(810,500);
     this->move(QApplication::desktop()->screen()->rect().center()-this->rect().center());
 
@@ -39,12 +39,16 @@ void GuiManager::initInfoTab()
     ui->lEmail->setText("Email: " + u.getUEmail());
     ui->lFullName->setText("Full Name: " + u.getUName());
     ui->lJob->setText("Job: " + u.getUJob());
-    ui->lRole->setText("Role: Reader");
+    ui->lRole->setText("Role: Manager");
     ui->lStatus->setText("Status: Active");
 }
 
 void GuiManager::initAccountTab()
 {
+    ui->listAccount->clear();
+    ui->listAccount->setColumnWidth(2,150);
+    ui->listAccount->setColumnWidth(3, 200);
+
     ui->listAccount->hideColumn(0);
     for (int i=0; i<data->nAccount; i++){
         Account &curAcc = data->accounts[i];
@@ -54,6 +58,9 @@ void GuiManager::initAccountTab()
 
 void GuiManager::initUserTab()
 {
+    ui->listUser->clear();
+    ui->listUser->setColumnWidth(2, 200);
+
     ui->listUser->hideColumn(0);
     for (int iu=0;iu<data->nUser;iu++){
         User &user = data->users[iu];
@@ -77,6 +84,10 @@ void GuiManager::addAccountViewTo(QTreeWidget *view, Account &acc)
     if (data->isManager(role))
         strRole = strRole + "M ";
     item->setText(4, strRole);
+    if (acc.getAStatus() == 0){
+        for (int i=1;i<5;i++)
+            item->setBackgroundColor(i, QColor::fromRgb(155, 158, 163));
+    }
 }
 
 void GuiManager::addUserViewTo(QTreeWidget *view, User &user)
@@ -159,8 +170,7 @@ void GuiManager::on_bRemoveAcc_clicked()
                                                                     QMessageBox::Yes | QMessageBox::No,
                                                                     QMessageBox::Yes);
 
-        int pos = data->getPosAccountById(aId);
-        if (resBtn == QMessageBox::Yes && pos > -1){
+        if (resBtn == QMessageBox::Yes){
             data->removeAccount(aId);
             delete ui->listAccount->currentItem();
         }
@@ -179,6 +189,7 @@ void GuiManager::on_bAddAcc_clicked()
 void GuiManager::addNewAccount(Account *acc)
 {
     data->addNewAccount(acc);
+    initAccountTab();
 }
 
 void GuiManager::editAccount(Account *acc, int aId)
@@ -190,6 +201,8 @@ void GuiManager::editAccount(Account *acc, int aId)
     curAcc.setAStatus(acc->getAStatus());
     curAcc.setUserId(acc->getUserId());
     curAcc.setAPass(acc->getAPass());
+
+    initAccountTab();
 }
 
 void GuiManager::on_bEditAcc_clicked()
@@ -210,5 +223,208 @@ void GuiManager::on_bEditAcc_clicked()
 
 void GuiManager::on_bSearchUser_clicked()
 {
+    ui->listUser->clear();
+    QString key = ui->searchUserInput->text();
+    int searchBy = ui->searchUserBy->currentIndex();
 
+    // 0. User Id
+    if (searchBy == 0){
+        for (int iu=0;iu<data->nUser;iu++){
+            User user = data->users[iu];
+            QString str = QString::number(user.getUId());
+            if (str.contains(key, Qt::CaseInsensitive))
+                addUserViewTo(ui->listUser,user);
+        }
+    }
+
+    // 1. User Name
+    if (searchBy == 1){
+        for (int iu=0;iu<data->nUser;iu++){
+            User user = data->users[iu];
+            QString str = user.getUName();
+            if (str.contains(key, Qt::CaseInsensitive))
+                addUserViewTo(ui->listUser,user);
+        }
+    }
+
+    // 2. User Code
+    if (searchBy == 2){
+        for (int iu=0;iu<data->nUser;iu++){
+            User user = data->users[iu];
+            QString str = QString::number(user.getUCode());
+            if (str.contains(key, Qt::CaseInsensitive))
+                addUserViewTo(ui->listUser,user);
+        }
+    }
+
+    // 3. User Email
+    if (searchBy == 3){
+        for (int iu=0;iu<data->nUser;iu++){
+            User user = data->users[iu];
+            QString str = user.getUEmail();
+            if (str.contains(key, Qt::CaseInsensitive))
+                addUserViewTo(ui->listUser,user);
+        }
+    }
+}
+
+void GuiManager::on_bRemoveUser_clicked()
+{
+    if (ui->listUser->currentItem() == 0)
+        return;
+
+    int uId = ui->listUser->currentItem()->text(1).toInt();
+
+    // Check user link to account
+    bool linked = 0;
+    for (int i=0;i<data->nAccount;i++){
+        Account &acc = data->accounts[i];
+        if (acc.getUserId() == uId){
+            linked = 1;
+            break;
+        }
+    }
+    if (linked){
+        QMessageBox::information(this, "Error!", "This user is linked to some account!");
+    }
+    else{
+        QMessageBox::StandardButton resBtn = QMessageBox::question( this, "LibPro",
+                                                                    tr("Are you sure?\n"),
+                                                                    QMessageBox::Yes | QMessageBox::No,
+                                                                    QMessageBox::Yes);
+
+        if (resBtn == QMessageBox::Yes){
+            data->removeUser(uId);
+            delete ui->listUser->currentItem();
+        }
+    }
+}
+
+void GuiManager::on_bAddUser_clicked()
+{
+    GuiUserInfo *guiUserInfo =  new GuiUserInfo(1);
+    guiUserInfo->setWindowTitle("Add New User");
+    guiUserInfo->move(QApplication::desktop()->screen()->rect().center()-this->rect().center());
+    connect(guiUserInfo, SIGNAL(addNewUser(User*)), this, SLOT(addNewUser(User*)));
+    guiUserInfo->show();
+}
+
+void GuiManager::addNewUser(User *user)
+{
+    data->addNewUser(user);
+    initUserTab();
+}
+
+void GuiManager::editUser(User *user, int uId)
+{
+    User &userOrigin = data->getUserByIdRef(uId);
+    userOrigin.setUCode(user->getUCode());
+    userOrigin.setUDob(user->getUDob());
+    userOrigin.setUEmail(user->getUEmail());
+    userOrigin.setUJob(user->getUJob());
+    userOrigin.setUName(user->getUName());
+    initUserTab();
+}
+
+void GuiManager::on_bEditUser_clicked()
+{
+    if (ui->listUser->currentItem() == 0)
+        return;
+
+    int uId = ui->listUser->currentItem()->text(1).toInt();
+    User &user = data->getUserByIdRef(uId);
+
+    GuiUserInfo *guiUserInfo =  new GuiUserInfo(2, &user);
+    guiUserInfo->setWindowTitle("Edit User");
+    guiUserInfo->move(QApplication::desktop()->screen()->rect().center()-this->rect().center());
+    connect(guiUserInfo, SIGNAL(editUser(User*,int)), this, SLOT(editUser(User*,int)));
+    guiUserInfo->show();
+
+}
+
+void GuiManager::on_butChangePassword_clicked()
+{
+    QString curPass = QInputDialog::getText(0,"Change Password","Current Password",QLineEdit::Normal,"",0);
+    if (curPass == "")
+        return;
+    Account &a = data->getAccountByIdRef(data->ItsMe.myAccount.getAId());
+    if (a.getAPass() == curPass){
+        QString newPass = QInputDialog::getText(0,"Change Password","New Password",QLineEdit::Normal,"",0);
+        if (newPass=="")
+            return;
+        QString configNewPass = QInputDialog::getText(0,"Change Password","Confirm new Password",QLineEdit::Normal,"",0);
+        if (newPass == configNewPass){
+            a.setAPass(newPass);
+            QMessageBox::information(this, "Done!", "Password changed!");
+        }
+        else{
+            QMessageBox::information(
+                this,
+                tr("Error!"),
+                tr("Wrong confirm password!") );
+        }
+    }
+    else{
+        QMessageBox::information(this, tr("Error!"), tr("Wrong password!"));
+    }
+}
+
+void GuiManager::on_bLogout1_clicked()
+{
+    if (this->close()){
+         LoginForm *loginForm = new LoginForm();
+         loginForm->show();
+    }
+}
+
+void GuiManager::on_bLogout2_clicked()
+{
+    if (this->close()){
+         LoginForm *loginForm = new LoginForm();
+         loginForm->show();
+    }
+}
+
+void GuiManager::on_butLogout3_clicked()
+{
+    if (this->close()){
+         LoginForm *loginForm = new LoginForm();
+         loginForm->show();
+    }
+}
+
+void GuiManager::on_bQuit1_clicked()
+{
+    this->close();
+}
+
+void GuiManager::on_bQuit2_clicked()
+{
+    this->close();
+}
+
+void GuiManager::on_butQuit3_clicked()
+{
+    this->close();
+}
+
+
+void GuiManager::on_listUser_itemDoubleClicked(QTreeWidgetItem *item, int column)
+{
+    int uId = item->text(1).toInt();
+    User &user = data->getUserByIdRef(uId);
+    GuiUserInfo *guiUserInfo = new GuiUserInfo(3, &user);
+    guiUserInfo->setWindowTitle("User Info");
+    guiUserInfo->move(QApplication::desktop()->screen()->rect().center()-this->rect().center());
+    guiUserInfo->show();
+}
+
+void GuiManager::on_listAccount_itemDoubleClicked(QTreeWidgetItem *item, int column)
+{
+    int aId = item->text(1).toInt();
+    Account &acc = data->getAccountByIdRef(aId);
+    guiAccountInfo *guiAccInfo = new guiAccountInfo(3, &acc);
+    guiAccInfo->setWindowTitle("User Info");
+    guiAccInfo->move(QApplication::desktop()->screen()->rect().center()-this->rect().center());
+    guiAccInfo->show();
 }
