@@ -163,6 +163,15 @@ int DataStore::getPosBookById(int bId)
     return -1;
 }
 
+int DataStore::getPosAccountById(int aId)
+{
+    for (int i=0;i<nAccount;i++){
+        if (accounts[i].getAId() == aId)
+            return i;
+    }
+    return -1;
+}
+
 bool DataStore::exitAccountByName(QString aName)
 {
     for (int i=0;i<nAccount;i++)
@@ -193,6 +202,32 @@ bool DataStore::exitBookById(int bId)
         if (books[i].getBId() == bId)
             return 1;
     return 0;
+}
+
+bool DataStore::isReader(Role role)
+{
+    return role & 1;
+}
+
+bool DataStore::isLibrarian(Role role)
+{
+    return (role >> 1) & 1;
+}
+
+bool DataStore::isManager(Role role)
+{
+    return (role >> 2) & 1;
+}
+
+bool DataStore::removeAccount(int aId)
+{
+    int pos = getPosAccountById(aId);
+    if (pos > -1){
+        accounts.remove(pos);
+        nAccount--;
+        return 0;
+    }
+    return 1;
 }
 
 int DataStore::readUser()

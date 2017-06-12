@@ -43,9 +43,9 @@ void LoginForm::on_buttonLogin_clicked()
             ui->labelStatus->setText("Log in as:");
 
             Role role = curAcc.getARole();
-            bool isReader = role & 1;
-            bool isLibrarian = (role >> 1) & 1;
-            bool isManager = (role >> 2) & 1;
+            bool isReader = data->isReader(role);
+            bool isLibrarian = data->isLibrarian(role);
+            bool isManager = data->isManager(role);
             if (isReader)
                 ui->bReader->show();
 
@@ -85,5 +85,8 @@ void LoginForm::on_bLibrarian_clicked()
 
 void LoginForm::on_bManager_clicked()
 {
-
+    Account &curAcc = data->ItsMe.myAccount;
+    GuiManager *managerGui = new GuiManager(curAcc.getAId());
+    this->close();
+    managerGui->show();
 }

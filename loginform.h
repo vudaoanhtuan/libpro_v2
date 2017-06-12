@@ -6,6 +6,7 @@
 #include "datastore.h"
 #include "guireader.h"
 #include "guilibrarian.h"
+#include "guimanager.h"
 
 namespace Ui {
 class LoginForm;

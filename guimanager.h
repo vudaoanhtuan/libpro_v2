@@ -2,6 +2,14 @@
 #define GUIMANAGER_H
 
 #include <QMainWindow>
+#include "datastore.h"
+#include "loginform.h"
+#include <QTreeWidget>
+#include <QTreeWidgetItem>
+#include <QStringList>
+#include <QCloseEvent>
+#include <QMessageBox>
+#include <QInputDialog>
 
 namespace Ui {
 class GuiManager;
@@ -12,8 +20,26 @@ class GuiManager : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit GuiManager(QWidget *parent = 0);
+    DataStore *data;
+    explicit GuiManager(int accountId, QWidget *parent = 0);
     ~GuiManager();
+
+
+    // Init tab
+    void initInfoTab();
+    void initAccountTab();
+
+    // Function for AccountTab
+    void addAccountViewTo(QTreeWidget *view, Account &acc);
+
+    // Close event
+    void closeEvent(QCloseEvent *event);
+
+
+private slots:
+    void on_bSearchAcc_clicked();
+
+    void on_bRemoveAcc_clicked();
 
 private:
     Ui::GuiManager *ui;

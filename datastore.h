@@ -71,13 +71,20 @@ public:
 
     // GET POS
     int getPosBookById(int bId);
+    int getPosAccountById(int aId);
 
     bool exitAccountByName(QString aName);
     bool exitAccountById(int aId);
     bool exitUserById(int uId);
     bool exitBookById(int bId);
 
+    // Function for Role
+    bool isReader(Role role);
+    bool isLibrarian(Role role);
+    bool isManager(Role role);
 
+    // Remove
+    bool removeAccount(int aId);
 
 
 
