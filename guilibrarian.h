@@ -13,6 +13,8 @@
 #include <QInputDialog>
 #include <QHeaderView>
 #include <QDesktopWidget>
+#include <QFile>
+#include <QFileDialog>
 
 namespace Ui {
 class GuiLibrarian;
@@ -92,6 +94,8 @@ private slots:
     void on_butChangePassword_clicked();
 
     void on_listBookView_itemDoubleClicked(QTreeWidgetItem *item, int column);
+
+    void on_pushButton_clicked();
 
 private:
     Ui::GuiLibrarian *ui;

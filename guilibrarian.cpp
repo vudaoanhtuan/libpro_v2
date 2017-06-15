@@ -451,3 +451,32 @@ void GuiLibrarian::on_listBookView_itemDoubleClicked(QTreeWidgetItem *item, int 
     connect(editBookGui, SIGNAL(closeAndReturnEditBook(Book*,int)), this, SLOT(editInfoBook(Book*, int)));
     editBookGui->show();
 }
+
+void GuiLibrarian::on_pushButton_clicked()
+{
+    QString fName = QFileDialog::getOpenFileName(this,
+                                                 "Open File",
+                                                 "",
+                                                 "CSV(*.csv)"
+                                                 );
+    QFile file(fName);
+    if (!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::information(this, "Error!", "Can't open file");
+    }
+    else{
+        while (!file.atEnd()) {
+            QString line = file.readLine();
+            line.remove("\r\n");
+            QStringList list = line.split(',');
+            Book book;
+            book.setBTitle(list[0]);
+            book.setBAuthor(list[1]);
+            book.setBPublisher(list[2]);
+            book.setBCategory(list[3]);
+            book.setBYear(list[4].toInt());
+            book.setBCount(list[5].toInt());
+            data->addNewBook(&book);
+            addBookViewTo(ui->listBookView, book);
+        }
+    }
+}
