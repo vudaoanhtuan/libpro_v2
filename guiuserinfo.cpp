@@ -126,19 +126,19 @@ void GuiUserInfo::on_bOK_clicked()
     QString status = checkInput();
 
     if (status == "Done"){
-        User *user = new User;
-        user->setUCode(ui->iUserCode->text().toInt());
-        user->setUDob(QDate::fromString(ui->iUserDoB->text(), DATE_FORMAT));
-        user->setUEmail(ui->iUserEmail->text());
-        user->setUJob(ui->iUserJob->text());
-        user->setUName(ui->iUserName->text());
+        User user;
+        user.setUCode(ui->iUserCode->text().toInt());
+        user.setUDob(QDate::fromString(ui->iUserDoB->text(), DATE_FORMAT));
+        user.setUEmail(ui->iUserEmail->text());
+        user.setUJob(ui->iUserJob->text());
+        user.setUName(ui->iUserName->text());
 
         if (work == ADD){
-            emit addNewUser(user);
+            emit addNewUser(&user);
         }
 
         if (work == EDIT){
-            emit editUser(user, uId);
+            emit editUser(&user, uId);
         }
 
         this->close();

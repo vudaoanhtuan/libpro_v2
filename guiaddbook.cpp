@@ -51,17 +51,17 @@ void GuiAddBook::on_bAdd_clicked()
 {
     QString status = checkInput();
     if (status == "Done"){
-        Book *book = new Book;
-        book->setBAuthor(ui->inputAuthor->text());
-        book->setBCategory(ui->inputCategory->text());
-        book->setBPublisher(ui->inputPublisher->text());
-        book->setBTitle(ui->inputTitle->text());
-        book->setBYear(ui->inputYear->text().toInt());
-        book->setBCount(ui->inputExist->text().toInt());
+        Book book;
+        book.setBAuthor(ui->inputAuthor->text());
+        book.setBCategory(ui->inputCategory->text());
+        book.setBPublisher(ui->inputPublisher->text());
+        book.setBTitle(ui->inputTitle->text());
+        book.setBYear(ui->inputYear->text().toInt());
+        book.setBCount(ui->inputExist->text().toInt());
         if (forEdit)
-            emit closeAndReturnEditBook(book, currentBookId);
+            emit closeAndReturnEditBook(&book, currentBookId);
         else
-            emit closeAndReturnBook(book);
+            emit closeAndReturnBook(&book);
         this->close();
     }
     else{

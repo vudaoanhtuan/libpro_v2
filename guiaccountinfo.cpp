@@ -157,31 +157,31 @@ void guiAccountInfo::on_bOk_clicked()
 {
     QString status = checkInput();
     if (status=="Done"){
-        Account *acc = new Account;
-        acc->setAName(ui->iAccName->text());
-        acc->setUserId(ui->iUserId->text().toInt());
+        Account acc;
+        acc.setAName(ui->iAccName->text());
+        acc.setUserId(ui->iUserId->text().toInt());
         if (ui->sActive->isChecked())
-            acc->setAStatus(1);
+            acc.setAStatus(1);
         else
-            acc->setAStatus(0);
+            acc.setAStatus(0);
         bool isReader = ui->cReader->isChecked();
         bool isLibrarian = ui->cLibrarian->isChecked();
         bool isManager = ui->cManager->isChecked();
         Role role = DataStore::getRole(isReader, isLibrarian, isManager);
-        acc->setARole(role);
-        acc->setAPass(ui->iPass->text());
+        acc.setARole(role);
+        acc.setAPass(ui->iPass->text());
 
 
         if (work == ADD){
-            acc->setNBorrow(0);
-            acc->setNRequest(0);
-            emit addAccount(acc);
+            acc.setNBorrow(0);
+            acc.setNRequest(0);
+            emit addAccount(&acc);
         }
 
         if (work == EDIT){
             qDebug()<<aId;
-            qDebug()<<(int)acc->getARole();
-            emit editAccount(acc, aId);
+            qDebug()<<(int)acc.getARole();
+            emit editAccount(&acc, aId);
         }
         this->close();
     }
