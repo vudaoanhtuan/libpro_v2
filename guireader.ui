@@ -18,7 +18,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tabBook">
        <attribute name="title">
@@ -175,16 +175,9 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_6">
             <item>
-             <widget class="QPushButton" name="bLogout2">
+             <widget class="QPushButton" name="bInfo">
               <property name="text">
-               <string>Log out</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="bQuit2">
-              <property name="text">
-               <string>Quit</string>
+               <string>Info</string>
               </property>
              </widget>
             </item>
@@ -274,6 +267,20 @@
                </size>
               </property>
              </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="bLogout2">
+              <property name="text">
+               <string>Log out</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="bQuit2">
+              <property name="text">
+               <string>Quit</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>

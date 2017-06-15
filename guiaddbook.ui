@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>545</width>
-    <height>251</height>
+    <width>492</width>
+    <height>284</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,21 +29,24 @@
     </item>
     <item>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="2" column="0">
-       <widget class="QLabel" name="lCategory">
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="inputPublisher"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="inputAuthor"/>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="lTitle">
         <property name="text">
-         <string>Catagory:</string>
+         <string>Title:</string>
         </property>
        </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QLineEdit" name="inputYear"/>
       </item>
       <item row="2" column="1">
        <widget class="QLineEdit" name="inputCategory"/>
       </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="inputPublisher"/>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="inputTitle"/>
       </item>
       <item row="4" column="0">
        <widget class="QLabel" name="lYear">
@@ -52,10 +55,20 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="lTitle">
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="inputYear"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="lCategory">
         <property name="text">
-         <string>Title:</string>
+         <string>Catagory:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="lAuthor">
+        <property name="text">
+         <string>Author:</string>
         </property>
        </widget>
       </item>
@@ -66,18 +79,15 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="inputAuthor"/>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="inputTitle"/>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="lAuthor">
+      <item row="5" column="0">
+       <widget class="QLabel" name="lExit">
         <property name="text">
-         <string>Author:</string>
+         <string>Exist:</string>
         </property>
        </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLineEdit" name="inputExist"/>
       </item>
      </layout>
     </item>

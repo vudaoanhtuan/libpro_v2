@@ -11,7 +11,7 @@ GuiLibrarian::GuiLibrarian(int accountId, QWidget *parent) :
 
     ui->setupUi(this);
     setWindowTitle("Libpro - " + data->ItsMe.myAccount.getAName()+ " (Librarian)");
-    setMinimumSize(810,500);
+    setMinimumSize(830,500);
     this->move(QApplication::desktop()->screen()->rect().center()-this->rect().center());
     ui->tabWidget->setCurrentIndex(0);
     // Init tab
@@ -42,12 +42,11 @@ void GuiLibrarian::initInfoTab()
 
 void GuiLibrarian::initBookTab()
 {
-    ui->listBookView->hideColumn(6);
     ui->listBookView->clear();
     ui->listBookView->setColumnWidth(0,70);
     ui->listBookView->setColumnWidth(1,200);
     ui->listBookView->setColumnWidth(2,130);
-    ui->listBookView->setColumnWidth(5,70);
+    ui->listBookView->setColumnWidth(5,50);
 
     for (int i=0;i<data->nBook;i++)
         addBookViewTo(ui->listBookView, data->books[i]);
@@ -274,9 +273,16 @@ void GuiLibrarian::on_bAccept_clicked()
     int accId = ui->listRequesting->currentItem()->text(0).toInt();
     int bookId = ui->listRequesting->currentItem()->text(2).toInt();
     Account &curAcc  = data->getAccountByIdRef(accId);
-    curAcc.removeRequest(bookId);
-    curAcc.borrowBook(bookId);
-    delete ui->listRequesting->currentItem();
+    Book &book = data->getBookByIdRef(bookId);
+    if (book.getBCount() < 1){
+        QMessageBox::information(this, "Error", "This book doesn't has any left!");
+    }
+    else{
+        curAcc.removeRequest(bookId);
+        curAcc.borrowBook(bookId);
+        book.setBCount(book.getBCount()-1);
+        delete ui->listRequesting->currentItem();
+    }
 }
 
 void GuiLibrarian::on_bRemoveRequest_clicked()
@@ -327,8 +333,10 @@ void GuiLibrarian::on_bRemoveBorrow_clicked()
     if (resBtn == QMessageBox::Yes){
         int aId = ui->listBorrowing->currentItem()->text(5).toInt();
         int bId = ui->listBorrowing->currentItem()->text(6).toInt();
+        Book &book = data->getBookByIdRef(bId);
         Account &acc = data->getAccountByIdRef(aId);
         acc.removeBorrow(bId);
+        book.setBCount(book.getBCount()+1);
         delete ui->listBorrowing->currentItem();
     }
 }

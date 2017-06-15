@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "book.h"
+#include <QMessageBox>
+
 
 namespace Ui {
 class GuiAddBook;
@@ -17,6 +19,8 @@ public:
     ~GuiAddBook();
 
     void setEditBookForm(Book *book);
+
+    QString checkInput();
 
 private slots:
     void on_bAdd_clicked();

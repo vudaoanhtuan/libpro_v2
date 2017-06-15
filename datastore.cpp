@@ -130,7 +130,6 @@ void DataStore::addNewBook(Book *book)
     currentIdBook++;
     nBook++;
     book->setBId(currentIdBook);
-    book->setBCount(10);
     books.push_back(*book);
     qDebug() << book->getBTitle();
     qDebug() << "Book added";

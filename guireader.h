@@ -65,6 +65,8 @@ private slots:
 
     void on_listRequesting_itemDoubleClicked(QTreeWidgetItem *item, int column);
 
+    void on_bInfo_clicked();
+
 private:
     Ui::GuiReader *ui;
 };

@@ -103,9 +103,17 @@ QString guiAccountInfo::checkInput()
     bool iL = ui->cLibrarian->isChecked();
     bool iM = ui->cManager->isChecked();
 
-    bool isUserExit = 0;
+    bool isUserExist = 0;
 
+    bool isAccountExist = 0;
 
+    for (int i=0;i<data->nAccount;i++){
+        Account acc=data->accounts[i];
+        if (acc.getAName()==aName){
+            isAccountExist = 1;
+            break;
+        }
+    }
 
     if (aName==""){
         return "You must set account name!";
@@ -114,6 +122,10 @@ QString guiAccountInfo::checkInput()
     if (aName.contains(" "))
         return "Account name invalid!";
 
+    if (isAccountExist){
+        return "Someone used this name!";
+    }
+
     if (!isNum){
         return "User Id must be number!";
     }
@@ -121,11 +133,11 @@ QString guiAccountInfo::checkInput()
         for (int i=0;i<data->nUser;i++){
             User &user = data->users[i];
             if (user.getUId() == uId){
-                isUserExit = 1;
+                isUserExist = 1;
                 break;
             }
         }
-        if (!isUserExit){
+        if (!isUserExist){
             return "User doesn't exit!";
         }
     }

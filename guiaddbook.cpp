@@ -30,19 +30,44 @@ void GuiAddBook::setEditBookForm(Book *book)
     forEdit = 1;
 }
 
+QString GuiAddBook::checkInput()
+{
+    QString strY = ui->inputYear->text();
+    QString strE = ui->inputExist->text();
+    bool isY = 0;
+    bool isE = 0;
+    int year = strY.toInt(&isY);
+    int Exist = strE.toInt(&isE);
+    if (!isY)
+        return "Year must be a number!";
+    if (year<100 || year > 2017)
+        return "Invalid year!";
+    if (!isE)
+        return "Number of book must be a number!";
+    return "Done";
+}
+
 void GuiAddBook::on_bAdd_clicked()
 {
-    Book *book = new Book;
-    book->setBAuthor(ui->inputAuthor->text());
-    book->setBCategory(ui->inputCategory->text());
-    book->setBPublisher(ui->inputPublisher->text());
-    book->setBTitle(ui->inputTitle->text());
-    book->setBYear(ui->inputYear->text().toInt());
-    if (forEdit)
-        emit closeAndReturnEditBook(book, currentBookId);
-    else
-        emit closeAndReturnBook(book);
-    this->close();
+    QString status = checkInput();
+    if (status == "Done"){
+        Book *book = new Book;
+        book->setBAuthor(ui->inputAuthor->text());
+        book->setBCategory(ui->inputCategory->text());
+        book->setBPublisher(ui->inputPublisher->text());
+        book->setBTitle(ui->inputTitle->text());
+        book->setBYear(ui->inputYear->text().toInt());
+        book->setBCount(ui->inputExist->text().toInt());
+        if (forEdit)
+            emit closeAndReturnEditBook(book, currentBookId);
+        else
+            emit closeAndReturnBook(book);
+        this->close();
+    }
+    else{
+        QMessageBox::information(this, "Error!", status);
+    }
+
 }
 
 void GuiAddBook::on_bCancel_clicked()

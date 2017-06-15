@@ -49,6 +49,7 @@ void GuiReader::initBookTab()
     for (int i=0;i<data->nBook;i++)
         addBookViewTo(ui->listBookView, data->books[i]);
 //    ui->listBookView->hideColumn(0);
+
 }
 
 void GuiReader::initStatusTab()
@@ -173,23 +174,24 @@ void GuiReader::on_butRequest_clicked()
     if (ui->listBookView->currentItem() == 0)
         return;
 
-
-
     int bookId = ui->listBookView->currentItem()->text(0).toInt();
     Account &a = data->ItsMe.myAccount;
-    if (!a.requestBook(bookId)){
-        QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Confirm!",
-                                                                    tr("Request this book?\n"),
-                                                                    QMessageBox::Yes | QMessageBox::No,
-                                                                    QMessageBox::Yes);
+    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Confirm!",
+                                                                tr("Request this book?\n"),
+                                                                QMessageBox::Yes | QMessageBox::No,
+                                                                QMessageBox::Yes);
 
-        if (resBtn == QMessageBox::Yes){
+    bool isRequested = 0;
+
+    if (resBtn == QMessageBox::Yes){
+        isRequested = !a.requestBook(bookId);
+        if (isRequested){
             addBookViewTo(ui->listRequesting, data->getBookByIdRef(bookId));
             ui->lRequesting->setText("Requesting: " + QString::number(a.getNRequest()));
         }
-    }
-    else{
-        QMessageBox::information(this, "Error!", "You have got maximun book request and borrow.\nRemove some request!");
+        else{
+            QMessageBox::information(this, "Error!", "You have got maximun book request and borrow.\nRemove some request!");
+        }
     }
 
 
@@ -286,19 +288,24 @@ void GuiReader::on_listBookView_itemDoubleClicked(QTreeWidgetItem *item, int col
 {
     int bookId = item->text(0).toInt();
     Account &a = data->ItsMe.myAccount;
-    if (!a.requestBook(bookId)){
-        QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Confirm!",
-                                                                    tr("Request this book?\n"),
-                                                                    QMessageBox::Yes | QMessageBox::No,
-                                                                    QMessageBox::Yes);
+    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Confirm!",
+                                                                tr("Request this book?\n"),
+                                                                QMessageBox::Yes | QMessageBox::No,
+                                                                QMessageBox::Yes);
 
-        if (resBtn == QMessageBox::Yes){
+    bool isRequested = 0;
+
+
+
+    if (resBtn == QMessageBox::Yes){
+        isRequested = !a.requestBook(bookId);
+        if (isRequested){
             addBookViewTo(ui->listRequesting, data->getBookByIdRef(bookId));
             ui->lRequesting->setText("Requesting: " + QString::number(a.getNRequest()));
         }
-    }
-    else{
-        QMessageBox::information(this, "Error!", "You have got maximun book request and borrow.\nRemove some request!");
+        else{
+            QMessageBox::information(this, "Error!", "You have got maximun book request and borrow.\nRemove some request!");
+        }
     }
 }
 
@@ -317,4 +324,9 @@ void GuiReader::on_listRequesting_itemDoubleClicked(QTreeWidgetItem *item, int c
             delete ui->listRequesting->currentItem();
         }
     }
+}
+
+void GuiReader::on_bInfo_clicked()
+{
+    QMessageBox::information(this, "Info", ui->lFine->text());
 }
