@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>390</width>
-    <height>288</height>
+    <height>294</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -95,7 +95,11 @@
            <widget class="QLineEdit" name="iUserEmail"/>
           </item>
           <item>
-           <widget class="QLineEdit" name="iUserDoB"/>
+           <widget class="QDateEdit" name="iUserDoB">
+            <property name="displayFormat">
+             <string>dd/MM/yyyy</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>

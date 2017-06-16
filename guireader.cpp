@@ -222,7 +222,7 @@ void GuiReader::on_butChangePassword_clicked()
     QString curPass = QInputDialog::getText(0,"Change Password","Current Password",QLineEdit::Normal,"",0);
     if (curPass == "")
         return;
-    Account &a = data->getAccountByIdRef(data->ItsMe.myAccount.getAId());
+    Account &a = data->ItsMe.myAccount;
     if (a.getAPass() == curPass){
         QString newPass = QInputDialog::getText(0,"Change Password","New Password",QLineEdit::Normal,"",0);
         if (newPass=="")

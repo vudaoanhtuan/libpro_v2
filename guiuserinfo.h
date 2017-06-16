@@ -4,7 +4,6 @@
 #include <QMainWindow>
 #include "user.h"
 #include "datastore.h"
-#include <QRegularExpression>
 #include <QMessageBox>
 
 namespace Ui {

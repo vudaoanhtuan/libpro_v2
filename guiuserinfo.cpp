@@ -29,7 +29,8 @@ GuiUserInfo::GuiUserInfo(int work, User *user, QWidget *parent) :
         ui->iUserCode->setText(QString::number(user->getUCode()));
         ui->iUserJob->setText(user->getUJob());
         ui->iUserEmail->setText(user->getUEmail());
-        ui->iUserDoB->setText(user->getUDob().toString(DATE_FORMAT));
+//        ui->iUserDoB->setText(user->getUDob().toString(DATE_FORMAT));
+        ui->iUserDoB->setDate(user->getUDob());
     }
 
     if (work == INFO){
@@ -62,21 +63,17 @@ GuiUserInfo::~GuiUserInfo()
 QString GuiUserInfo::checkInput()
 {
     QString uEmail = ui->iUserEmail->text();
-    QString uDob = ui->iUserDoB->text();
     bool isNum=0;
     int uCode = ui->iUserCode->text().toInt(&isNum);
 
-    QRegularExpression reDate("^(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\\d\\d$");
-    bool isDate=1;
-    if (!reDate.match(uDob).hasMatch()){
-        isDate=0;
-    }
-
-
-    QRegularExpression regex("^[0-9a-zA-Z]+([0-9a-zA-Z]*[-._+])*[0-9a-zA-Z]+@[0-9a-zA-Z]+([-.][0-9a-zA-Z]+)*([0-9a-zA-Z]*[.])[a-zA-Z]{2,6}$");
     bool isEmail = 1;
-    if(!regex.match(uEmail).hasMatch()){
+    if (!uEmail.contains("@") || !uEmail.contains("."))
         isEmail = 0;
+
+    if (isEmail){
+        QString strHost = uEmail.split("@").last();
+        if (!strHost.contains("."))
+            isEmail = 0;
     }
 
     if (!isNum){
@@ -110,11 +107,7 @@ QString GuiUserInfo::checkInput()
     }
 
     if (!isEmail){
-        return "Email invalid!";
-    }
-
-    if (!isDate){
-        return "Date invalid!";
+        return "Invalid email!";
     }
 
     return "Done";
