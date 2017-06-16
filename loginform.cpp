@@ -14,7 +14,7 @@ LoginForm::LoginForm(QWidget *parent) :
     ui->bReader->hide();
     ui->bLibrarian->hide();
     ui->bManager->hide();
-
+    ui->inputPassword->setEchoMode(QLineEdit::Password);
     // Set location and default for tab
     setWindowTitle("Libpro - Log in");
     setMinimumSize(400,200);

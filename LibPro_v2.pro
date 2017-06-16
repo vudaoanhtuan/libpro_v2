@@ -44,3 +44,5 @@ FORMS    += loginform.ui \
     guimanager.ui \
     guiaccountinfo.ui \
     guiuserinfo.ui
+
+RESOURCES +=

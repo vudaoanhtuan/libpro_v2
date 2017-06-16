@@ -8,6 +8,7 @@
 #include <QDebug>
 #include <QFile>
 #include <QTextStream>
+#include <QIcon>
 
 // Define File
 #define USER_FILE "data/user.dat"

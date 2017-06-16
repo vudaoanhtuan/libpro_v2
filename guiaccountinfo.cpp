@@ -122,7 +122,7 @@ QString guiAccountInfo::checkInput()
     if (aName.contains(" "))
         return "Account name invalid!";
 
-    if (isAccountExist){
+    if (isAccountExist && work == ADD){
         return "Someone used this name!";
     }
 
