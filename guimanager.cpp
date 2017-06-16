@@ -424,7 +424,7 @@ void GuiManager::on_listAccount_itemDoubleClicked(QTreeWidgetItem *item, int col
     int aId = item->text(1).toInt();
     Account &acc = data->getAccountByIdRef(aId);
     guiAccountInfo *guiAccInfo = new guiAccountInfo(3, &acc);
-    guiAccInfo->setWindowTitle("User Info");
+    guiAccInfo->setWindowTitle("Account Info");
     guiAccInfo->move(QApplication::desktop()->screen()->rect().center()-this->rect().center());
     guiAccInfo->show();
 }
