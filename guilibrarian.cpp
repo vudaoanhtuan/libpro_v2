@@ -11,7 +11,7 @@ GuiLibrarian::GuiLibrarian(int accountId, QWidget *parent) :
 
     ui->setupUi(this);
     setWindowTitle("Libpro - " + data->ItsMe.myAccount.getAName()+ " (Librarian)");
-    setMinimumSize(830,500);
+    setMinimumSize(850,500);
     this->move(QApplication::desktop()->screen()->rect().center()-this->rect().center());
     ui->tabWidget->setCurrentIndex(0);
     // Init tab
@@ -47,6 +47,7 @@ void GuiLibrarian::initBookTab()
     ui->listBookView->setColumnWidth(1,200);
     ui->listBookView->setColumnWidth(2,130);
     ui->listBookView->setColumnWidth(5,50);
+    ui->listBookView->setColumnWidth(6,30);
 
     for (int i=0;i<data->nBook;i++)
         addBookViewTo(ui->listBookView, data->books[i]);
@@ -282,6 +283,7 @@ void GuiLibrarian::on_bAccept_clicked()
         curAcc.borrowBook(bookId);
         book.setBCount(book.getBCount()-1);
         delete ui->listRequesting->currentItem();
+        addAccAndBookTo(ui->listBorrowing, curAcc, book);
     }
 }
 
