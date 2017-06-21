@@ -473,6 +473,11 @@ void GuiLibrarian::on_butImport_clicked()
             QString line = file.readLine();
             line.remove("\r\n");
             QStringList list = line.split(',');
+            for (int i=0; i<list.size(); i++){
+                list[i].replace("\\", ",");
+                list[i].replace("|", ",");
+                list[i].replace("/", ",");
+            }
             Book book;
             book.setBTitle(list[0]);
             book.setBAuthor(list[1]);
