@@ -16,6 +16,7 @@ GuiReader::GuiReader(int accountId, QWidget *parent) :
     initInfoTab();
     initBookTab();
     initStatusTab();
+    initHistoryTab();
 
     ui->tabWidget->setCurrentIndex(0);
 }
@@ -70,7 +71,19 @@ void GuiReader::initStatusTab()
     for (int i=0;i<a.getNRequest();i++){
         Book book = data->getBookByIdRef(listRequest[i]);
         addBookViewTo(ui->listRequesting, book);
-    }    
+    }
+}
+
+void GuiReader::initHistoryTab()
+{
+    Account &me = data->getAccountByIdRef(data->ItsMe.myAccount.getAId());
+    QVector<int> bookHis =  me.getListHistories();
+    for (int i=0; i<bookHis.size(); i++){
+        QTreeWidgetItem *item = new QTreeWidgetItem(ui->listHistory);
+        item->setText(0, QString::number(bookHis[i]));
+        Book book = data->getBookByIdRef(bookHis[i]);
+        item->setText(1, book.getBTitle());
+    }
 }
 
 void GuiReader::addBookViewTo(QTreeWidget *view, Book &book)
@@ -329,4 +342,17 @@ void GuiReader::on_listRequesting_itemDoubleClicked(QTreeWidgetItem *item, int c
 void GuiReader::on_bInfo_clicked()
 {
     QMessageBox::information(this, "Info", ui->lFine->text());
+}
+
+void GuiReader::on_butLogout4_clicked()
+{
+    if (this->close()){
+         LoginForm *loginForm = new LoginForm();
+         loginForm->show();
+    }
+}
+
+void GuiReader::on_butQuit4_clicked()
+{
+    this->close();
 }

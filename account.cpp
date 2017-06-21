@@ -90,6 +90,11 @@ QVector<int> Account::getListRequest()
     return requests;
 }
 
+QVector<int> Account::getListHistories()
+{
+    return histories;
+}
+
 int Account::requestBook(int bookId)
 {
     if (nBorrow + nRequest >= MAX_BOOK)
@@ -141,6 +146,16 @@ int Account::removeBorrow(int bookId)
     nBorrow--;
     borrows.remove(id);
     return 0;
+}
+
+int Account::getNHistory() const
+{
+    return nHistory;
+}
+
+void Account::setNHistory(int value)
+{
+    nHistory = value;
 }
 
 Account::Account()

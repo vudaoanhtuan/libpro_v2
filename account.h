@@ -27,9 +27,11 @@ private:
     bool aStatus;
     int nBorrow;
     int nRequest;
+    int nHistory;
 public:
     QVector<BookBorrow> borrows;
     QVector<int> requests;
+    QVector<int> histories;
     Account();
 
     // Default GETTER & SETTER
@@ -49,16 +51,17 @@ public:
     void setNRequest(int value);
     Role getARole() const;
     void setARole(const Role &value);
+    int getNHistory() const;
+    void setNHistory(int value);
 
     // New GETTER
     QVector<BookBorrow> getListBorrows();
     QVector<int> getListRequest();
+    QVector<int>getListHistories();
     int requestBook(int bookId);
     int removeRequest(int bookId);
     int borrowBook(int bookId);
     int removeBorrow(int bookId);
-
-    // Role Function
 
 
 };

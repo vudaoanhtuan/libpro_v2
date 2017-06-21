@@ -50,6 +50,14 @@ int DataStore::writeAccount()
             output << bookReqs[ir] << " ";
         }
         output << endl;
+
+        output << accounts[i].getNHistory() << " ";
+        QVector<int> bookHis = accounts[i].getListHistories();
+        for (int ih=0; ih<bookHis.size(); ih++){
+            output << bookHis[ih] << " ";
+        }
+
+        output << endl;
     }
     file.flush();
     file.close();
@@ -364,6 +372,17 @@ int DataStore::readAccount()
             int bookId;
             strReq >> bookId;
             nAcc.requests.push_back(bookId);
+        }
+
+        cLine = input.readLine();
+        QTextStream strHis(&cLine);
+        int nHis;
+        strHis >> nHis;
+        nAcc.setNHistory(nHis);
+        for (int ih=0; ih<nHis; ih++){
+            int bookId;
+            strHis >> bookId;
+            nAcc.histories.push_back(bookId);
         }
 
         accounts.push_back(nAcc);

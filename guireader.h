@@ -28,6 +28,7 @@ public:
     void initInfoTab();
     void initBookTab();
     void initStatusTab();
+    void initHistoryTab();
 
 
     // Function for Book Tab
@@ -66,6 +67,10 @@ private slots:
     void on_listRequesting_itemDoubleClicked(QTreeWidgetItem *item, int column);
 
     void on_bInfo_clicked();
+
+    void on_butLogout4_clicked();
+
+    void on_butQuit4_clicked();
 
 private:
     Ui::GuiReader *ui;

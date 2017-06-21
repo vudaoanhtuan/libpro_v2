@@ -95,7 +95,7 @@ private slots:
 
     void on_listBookView_itemDoubleClicked(QTreeWidgetItem *item, int column);
 
-    void on_pushButton_clicked();
+    void on_butImport_clicked();
 
 private:
     Ui::GuiLibrarian *ui;

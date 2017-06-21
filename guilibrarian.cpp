@@ -283,7 +283,7 @@ void GuiLibrarian::on_bAccept_clicked()
         curAcc.borrowBook(bookId);
         book.setBCount(book.getBCount()-1);
         delete ui->listRequesting->currentItem();
-        addAccAndBookTo(ui->listBorrowing, curAcc, book);
+        initBorrowTab();
     }
 }
 
@@ -340,6 +340,10 @@ void GuiLibrarian::on_bRemoveBorrow_clicked()
         acc.removeBorrow(bId);
         book.setBCount(book.getBCount()+1);
         delete ui->listBorrowing->currentItem();
+
+        // Add to account history
+        acc.setNHistory(acc.getNHistory() + 1);
+        acc.histories.push_back(book.getBId());
     }
 }
 
@@ -454,7 +458,7 @@ void GuiLibrarian::on_listBookView_itemDoubleClicked(QTreeWidgetItem *item, int 
     editBookGui->show();
 }
 
-void GuiLibrarian::on_pushButton_clicked()
+void GuiLibrarian::on_butImport_clicked()
 {
     QString fName = QFileDialog::getOpenFileName(this,
                                                  "Open File",
