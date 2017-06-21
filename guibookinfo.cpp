@@ -13,6 +13,7 @@ GuiBookInfo::GuiBookInfo(Book &book, QWidget *parent) :
     ui->lTitle->setText("Title: " + book.getBTitle());
     ui->lYear->setText("Year: " + QString::number(book.getBYear()));
     ui->lId->setText("Id: " + QString::number(book.getBId()));
+    setWindowTitle("Book Information");
 }
 
 GuiBookInfo::~GuiBookInfo()
