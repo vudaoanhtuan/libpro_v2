@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     guiaddbook.cpp \
     guimanager.cpp \
     guiaccountinfo.cpp \
-    guiuserinfo.cpp
+    guiuserinfo.cpp \
+    guibookinfo.cpp
 
 HEADERS  += loginform.h \
     user.h \
@@ -35,7 +36,8 @@ HEADERS  += loginform.h \
     guiaddbook.h \
     guimanager.h \
     guiaccountinfo.h \
-    guiuserinfo.h
+    guiuserinfo.h \
+    guibookinfo.h
 
 FORMS    += loginform.ui \
     guireader.ui \
@@ -43,5 +45,6 @@ FORMS    += loginform.ui \
     guiaddbook.ui \
     guimanager.ui \
     guiaccountinfo.ui \
-    guiuserinfo.ui
+    guiuserinfo.ui \
+    guibookinfo.ui
 

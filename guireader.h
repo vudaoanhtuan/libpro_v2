@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "datastore.h"
 #include "loginform.h"
+#include "guibookinfo.h"
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 #include <QStringList>

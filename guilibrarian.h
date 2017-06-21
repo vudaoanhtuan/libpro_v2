@@ -5,6 +5,7 @@
 #include "datastore.h"
 #include "guiaddbook.h"
 #include "loginform.h"
+#include "guibookinfo.h"
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 #include <QStringList>

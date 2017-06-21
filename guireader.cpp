@@ -99,7 +99,7 @@ void GuiReader::addBookViewTo(QTreeWidget *view, Book &book)
 }
 
 bool GuiReader::searchBookByKey(Book &book, QString key){
-    QStringList word = key.split(" ");
+    QStringList word = key.split(",");
     for (int i=0;i<word.size();i++){
         if (book.getBTitle().contains(word[i], Qt::CaseInsensitive))
             return 1;
@@ -300,26 +300,11 @@ void GuiReader::on_butLogout3_clicked()
 void GuiReader::on_listBookView_itemDoubleClicked(QTreeWidgetItem *item, int column)
 {
     int bookId = item->text(0).toInt();
-    Account &a = data->ItsMe.myAccount;
-    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Confirm!",
-                                                                tr("Request this book?\n"),
-                                                                QMessageBox::Yes | QMessageBox::No,
-                                                                QMessageBox::Yes);
+    Book book = data->getBookByIdRef(bookId);
 
-    bool isRequested = 0;
-
-
-
-    if (resBtn == QMessageBox::Yes){
-        isRequested = !a.requestBook(bookId);
-        if (isRequested){
-            addBookViewTo(ui->listRequesting, data->getBookByIdRef(bookId));
-            ui->lRequesting->setText("Requesting: " + QString::number(a.getNRequest()));
-        }
-        else{
-            QMessageBox::information(this, "Error!", "You have got maximun book request and borrow.\nRemove some request!");
-        }
-    }
+    GuiBookInfo *bookInfoGui = new GuiBookInfo(book);
+    bookInfoGui->move(QApplication::desktop()->screen()->rect().center()-this->rect().center());
+    bookInfoGui->show();
 }
 
 void GuiReader::on_listRequesting_itemDoubleClicked(QTreeWidgetItem *item, int column)

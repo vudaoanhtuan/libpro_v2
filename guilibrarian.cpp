@@ -102,7 +102,7 @@ void GuiLibrarian::addBookViewTo(QTreeWidget *view, Book &book)
 
 bool GuiLibrarian::searchBookByKey(Book &book, QString key)
 {
-    QStringList word = key.split(" ");
+    QStringList word = key.split(",");
     for (int i=0;i<word.size();i++){
         if (book.getBTitle().contains(word[i],Qt::CaseInsensitive))
             return 1;
@@ -451,11 +451,9 @@ void GuiLibrarian::on_listBookView_itemDoubleClicked(QTreeWidgetItem *item, int 
     Book &book = data->getBookByIdRef(bookId);
 
 
-    GuiAddBook *editBookGui = new GuiAddBook;
-    editBookGui->move(QApplication::desktop()->screen()->rect().center()-this->rect().center());
-    editBookGui->setEditBookForm(&book);
-    connect(editBookGui, SIGNAL(closeAndReturnEditBook(Book*,int)), this, SLOT(editInfoBook(Book*, int)));
-    editBookGui->show();
+    GuiBookInfo *bookInfoGui = new GuiBookInfo(book);
+    bookInfoGui->move(QApplication::desktop()->screen()->rect().center()-this->rect().center());
+    bookInfoGui->show();
 }
 
 void GuiLibrarian::on_butImport_clicked()
