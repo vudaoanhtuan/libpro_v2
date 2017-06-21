@@ -85,6 +85,8 @@ private slots:
 
     void on_listAccount_itemDoubleClicked(QTreeWidgetItem *item, int column);
 
+    void on_butImportUser_clicked();
+
 private:
     Ui::GuiManager *ui;
 };

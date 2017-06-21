@@ -428,3 +428,41 @@ void GuiManager::on_listAccount_itemDoubleClicked(QTreeWidgetItem *item, int col
     guiAccInfo->move(QApplication::desktop()->screen()->rect().center()-this->rect().center());
     guiAccInfo->show();
 }
+
+void GuiManager::on_butImportUser_clicked()
+{
+    QString fName = QFileDialog::getOpenFileName(this,
+                                                 "Open File",
+                                                 "",
+                                                 "CSV(*.csv)"
+                                                 );
+    QFile file(fName);
+    if (!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::information(this, "Error!", "Can't open file");
+    }
+    else{
+        file.readLine();
+        while (!file.atEnd()) {
+            QString line = file.readLine();
+            line.remove("\r\n");
+            QStringList list = line.split(',');
+            User user;
+            user.setUName(list[0]);
+            user.setUCode(list[1].toInt());
+            user.setUDob(QDate::fromString(list[2], DATE_FORMAT));
+            user.setUEmail(list[3]);
+            user.setUJob(list[4]);
+
+            bool isUserExist = 0;
+            for (int i=0; i<data->nUser; i++)
+                if (data->users[i].getUCode() == user.getUCode()){
+                    isUserExist = 1;
+                    break;
+                }
+            if (!isUserExist){
+                data->addNewUser(&user);
+                addUserViewTo(ui->listUser, user);
+            }
+        }
+    }
+}

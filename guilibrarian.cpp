@@ -470,6 +470,7 @@ void GuiLibrarian::on_butImport_clicked()
         QMessageBox::information(this, "Error!", "Can't open file");
     }
     else{
+        file.readLine();
         while (!file.atEnd()) {
             QString line = file.readLine();
             line.remove("\r\n");
