@@ -1,6 +1,7 @@
 # Hướng dẫn biên dịch Libpro
 
-## Yêu cầu: đã cài đặt Qt 4.8 trở lên
+## Yêu cầu
+- đã cài đặt Qt 4.8 trở lên
 
 ## Đối với Linux
 
