@@ -1,14 +1,14 @@
-# Hướng dẫn biên dịch Libpro trên Linux
+# Hướng dẫn biên dịch Libpro
 
-## Yêu cầu: đã cài đặt Qt 4.8
+## Yêu cầu: đã cài đặt Qt 4.8 trở lên
 
 ## Đối với Linux
 
 1. Mở terminal lên và chuyển thư mục làm việc đến thư mục chứa mã nguồn:  cd <đường đẫn đến thư mục>
 2. Sử dụng qmake của Qt để sinh makefile: qmake
 3. Biên dịch mã nguồn thành chương trình: make
-4. Sau khi thực hiện lệnh make ta được 1 file thực thi tên là Libpro{\_}v2 (cùng thư mục với mã nguồn). Đây đã là file chương trình hoàn chỉnh nhưng cần đặt file này cùng thư mục với thư mục data (chứa dữ liệu của chương trình) thì mới chạy được
-5. Chạy chương trình bằng lệnh: ./Libpro{\_}v2
+4. Sau khi thực hiện lệnh make ta được 1 file thực thi tên là Libpro_v2 (cùng thư mục với mã nguồn). Đây đã là file chương trình hoàn chỉnh nhưng cần đặt file này cùng thư mục với thư mục data (chứa dữ liệu của chương trình) thì mới chạy được
+5. Chạy chương trình bằng lệnh: ./Libpro_v2
 
 
 ## Đối với Window
@@ -24,3 +24,4 @@
 ## Chú ý
 1. Tài khoản mặc định có các phiên bản trước là "root", mật khẩu "root"
 2. Tài khoản mặc định cho phiên bản hiện tại là "admin", mật khẩu "123"
+3. Thư mục data (chứa dữ liệu của chương trình) phải được đặt trong cùng thư mục chứ file thực thi
