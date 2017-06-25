@@ -25,6 +25,7 @@ void GuiAddBook::setEditBookForm(Book *book)
     ui->inputPublisher->setText(book->getBPublisher());
     ui->inputTitle->setText(book->getBTitle());
     ui->inputYear->setText(QString::number(book->getBYear()));
+    ui->inputExist->setText(QString::number(book->getBCount()));
 
     currentBookId = book->getBId();
     forEdit = 1;

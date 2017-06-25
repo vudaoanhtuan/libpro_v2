@@ -197,6 +197,7 @@ void GuiLibrarian::editInfoBook(Book *book, int id)
     bookRef.setBPublisher(book->getBPublisher());
     bookRef.setBTitle(book->getBTitle());
     bookRef.setBYear(book->getBYear());
+    bookRef.setBCount(book->getBCount());
     initBookTab();
 }
 
