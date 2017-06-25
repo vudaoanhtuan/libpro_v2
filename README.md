@@ -1,3 +1,7 @@
+# Dữ liệu mẫu thu thập từ Google
+https://drive.google.com/drive/u/1/folders/0B6TEhZCkGAIAZXBLa0dONnhBd00
+
+
 # Hướng dẫn biên dịch Libpro
 
 ## Yêu cầu
